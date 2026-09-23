@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار قواعد منهج Schritte - الجزء الأول والثاني</title>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Dark Theme Variables */
+            --bg-gradient: linear-gradient(180deg, #020307 0%, #060812 50%, #010204 100%);
+            --card-bg: rgba(15, 20, 32, 0.9);
+            --card-border: rgba(56, 189, 248, 0.25);
+            --text-color: #f8fafc;
+            --text-sub: #94a3b8;
+            --title-color: linear-gradient(135deg, #00f2fe 0%, #4facfe 50%, #f59e0b 100%);
+            --accent-glow: #38bdf8;
+            --accent-gold: #f59e0b;
+            --accent-red: #f87171;
+            --accent-green: #4ade80;
+            --button-bg: linear-gradient(135deg, #2563eb, #7c3aed);
+            --button-hover: linear-gradient(135deg, #1d4ed8, #6d28d9);
+            --glow-color: rgba(56, 189, 248, 0.4);
+            --input-bg: rgba(10, 15, 26, 0.95);
+            --input-text: #ffffff;
+            --chip-bg: rgba(255,255,255,0.05);
+        }
+
+        html[data-theme="light"] {
+            /* Light Day Theme Variables */
+            --bg-gradient: linear-gradient(180deg, #e0f2fe 0%, #f0f9ff 50%, #bae6fd 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --card-border: rgba(2, 132, 199, 0.3);
+            --text-color: #0f172a;
+            --text-sub: #334155;
+            --title-color: linear-gradient(135deg, #0284c7 0%, #2563eb 50%, #d97706 100%);
+            --accent-glow: #0284c7;
+            --accent-gold: #d97706;
+            --accent-red: #dc2626;
+            --accent-green: #16a34a;
+            --button-bg: linear-gradient(135deg, #0284c7, #4f46e5);
+            --button-hover: linear-gradient(135deg, #0369a1, #4338ca);
+            --glow-color: rgba(2, 132, 199, 0.3);
+            --input-bg: #ffffff;
+            --input-text: #0f172a;
+            --chip-bg: rgba(2, 132, 199, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Dark Sky Canvas */
+        #stars-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Theme Switcher Button (Small & Corner Positioned) */
+        .theme-toggle-btn {
+            position: fixed;
+            top: 12px;
+            left: 12px;
+            z-index: 1000;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-color);
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px var(--glow-color);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            line-height: 1;
+        }
+
+        .theme-toggle-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-top: 25px;
+        }
+
+        header h1 {
+            font-size: 2.1rem;
+            background: var(--title-color);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 0 15px rgba(56, 189, 248, 0.3));
+            font-weight: 800;
+        }
+
+        header .author {
+            font-size: 1.2rem;
+            color: var(--accent-gold);
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+        }
+
+        /* Waving German Flag Box */
+        .flag-section {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .flag-frame {
+            width: 180px;
+            height: 110px;
+            border-radius: 12px;
+            padding: 6px;
+            background: rgba(255,255,255,0.03);
+            border: 2px solid #f59e0b;
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.6), inset 0 0 15px rgba(245, 158, 11, 0.4);
+            animation: pulseGlow 3s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 15px rgba(245, 158, 11, 0.5), inset 0 0 10px rgba(245, 158, 11, 0.3); }
+            100% { box-shadow: 0 0 30px rgba(239, 68, 68, 0.8), inset 0 0 20px rgba(56, 189, 248, 0.5); }
+        }
+
+        .german-flag {
+            width: 100%;
+            height: 100%;
+            border-radius: 6px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            animation: waveFlag 2.5s ease-in-out infinite alternate;
+            transform-origin: left center;
+        }
+
+        @keyframes waveFlag {
+            0% { transform: skewY(0deg) scale(1); }
+            50% { transform: skewY(2deg) scale(1.02); }
+            100% { transform: skewY(-2deg) scale(0.98); }
+        }
+
+        .flag-stripe {
+            flex: 1;
+        }
+
+        .flag-stripe.black { background-color: #000000; }
+        .flag-stripe.red { background-color: #DD0000; }
+        .flag-stripe.gold { background-color: #FFCC00; }
+
+        /* Social Contacts Card */
+        .contact-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 0 20px var(--glow-color);
+        }
+
+        .contact-card h3 {
+            margin-bottom: 15px;
+            color: var(--accent-glow);
+            font-size: 1.3rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 18px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .social-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(60deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: rotate(30deg);
+            animation: shineSocial 3s infinite;
+        }
+
+        @keyframes shineSocial {
+            0% { left: -100%; }
+            20% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+        }
+
+        .social-btn.telegram { background: linear-gradient(135deg, #0088cc, #00a8ff); }
+        .social-btn.tiktok { background: linear-gradient(135deg, #000000, #25f4ee, #fe2c55); }
+        .social-btn.instagram { background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045); }
+
+        /* Shiny Buttons */
+        .shiny-btn {
+            background: var(--button-bg);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 15px var(--glow-color);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .shiny-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(60deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: rotate(30deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        .shiny-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px var(--accent-glow);
+        }
+
+        .shiny-btn.active-part {
+            background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.6) !important;
+        }
+
+        /* Part Selection Dropdown Box */
+        .section-box {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .section-box h2 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+
+        .parts-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .part-btn {
+            flex: 1;
+            min-width: 200px;
+            padding: 14px;
+            font-size: 1.1rem;
+        }
+
+        /* Lessons Navigation Bar */
+        .lessons-nav {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 10px 5px;
+            margin-bottom: 20px;
+            scrollbar-width: thin;
+        }
+
+        .lesson-tab {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-color);
+            padding: 8px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-weight: 600;
+        }
+
+        .lesson-tab.active {
+            background: var(--button-bg);
+            box-shadow: 0 0 12px var(--glow-color);
+            border-color: transparent;
+            color: #fff;
+        }
+
+        /* Exercise Container */
+        .quiz-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 10px;
+        }
+
+        .progress-badge {
+            background: var(--accent-glow);
+            color: #000;
+            font-weight: bold;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .question-text {
+            font-size: 1.25rem;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            font-weight: bold;
+        }
+
+        .rule-note {
+            font-size: 0.95rem;
+            color: var(--accent-gold);
+            margin-bottom: 15px;
+            background: rgba(245, 158, 11, 0.12);
+            padding: 8px 12px;
+            border-radius: 8px;
+            border-right: 3px solid var(--accent-gold);
+        }
+
+        /* Interaction Area */
+        .interaction-area {
+            margin-bottom: 10px;
+        }
+
+        /* Input type */
+        .custom-input {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 2px solid var(--card-border);
+            background: var(--input-bg);
+            color: var(--input-text);
+            font-size: 1.2rem;
+            outline: none;
+            direction: ltr;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .custom-input:focus {
+            border-color: var(--accent-glow);
+            box-shadow: 0 0 12px var(--glow-color);
+        }
+
+        /* MCQ Options */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            direction: ltr;
+        }
+
+        .option-btn {
+            background: var(--chip-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-color);
+            padding: 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .option-btn:hover {
+            background: rgba(56, 189, 248, 0.2);
+            border-color: var(--accent-glow);
+        }
+
+        .option-btn.selected {
+            background: var(--button-bg);
+            border-color: transparent;
+            color: white;
+            box-shadow: 0 0 10px var(--glow-color);
+        }
+
+        /* Word Reordering */
+        .word-chips-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 12px;
+            min-height: 55px;
+            padding: 12px;
+            background: var(--chip-bg);
+            border-radius: 10px;
+            border: 1px dashed var(--card-border);
+            direction: ltr;
+            align-items: center;
+        }
+
+        .word-chip {
+            background: var(--button-bg);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            user-select: none;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            font-size: 1.05rem;
+        }
+
+        /* CORRECTION AND EXPLANATION BOX */
+        .correction-box {
+            margin-top: 15px;
+            margin-bottom: 15px;
+            padding: 18px;
+            border-radius: 14px;
+            font-weight: normal;
+            text-align: right;
+            display: none;
+            line-height: 1.7;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .correction-box.incorrect {
+            background: rgba(239, 68, 68, 0.12);
+            border: 2px solid var(--accent-red);
+            color: var(--text-color);
+            display: block !important;
+        }
+
+        .correction-box.correct {
+            background: rgba(34, 197, 94, 0.12);
+            border: 2px solid var(--accent-green);
+            color: var(--text-color);
+            display: block !important;
+        }
+
+        .correction-box .box-header {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .correction-box.incorrect .box-header {
+            color: var(--accent-red);
+        }
+
+        .correction-box.correct .box-header {
+            color: var(--accent-green);
+        }
+
+        .correction-box .user-answer-line {
+            font-size: 1.05rem;
+            margin-bottom: 6px;
+        }
+
+        .correction-box .correct-answer-line {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 1.15rem;
+            font-weight: bold;
+            margin: 10px 0;
+            direction: ltr;
+            text-align: left;
+            font-family: 'Segoe UI', Tahoma, monospace;
+            border-right: 4px solid var(--accent-gold);
+            color: #fde047;
+        }
+
+        html[data-theme="light"] .correction-box .correct-answer-line {
+            background: #fef9c3;
+            color: #854d0e;
+        }
+
+        .correction-box .reason-explanation {
+            font-size: 1rem;
+            margin-top: 8px;
+            line-height: 1.6;
+        }
+
+        .action-bar {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        /* Toast Notification */
+        .toast-notification {
+            position: fixed;
+            top: 25px;
+            right: 50%;
+            transform: translateX(50%) translateY(-100px);
+            background: rgba(15, 23, 42, 0.95);
+            border: 2px solid var(--accent-glow);
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s;
+            opacity: 0;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast-notification.show {
+            transform: translateX(50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast-notification.success {
+            border-color: var(--accent-green);
+            box-shadow: 0 0 20px rgba(74, 222, 128, 0.4);
+        }
+
+        .toast-notification.error {
+            border-color: var(--accent-red);
+            box-shadow: 0 0 20px rgba(248, 113, 113, 0.4);
+        }
+
+        /* Score Box */
+        .score-box {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .score-box h2 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+
+        .score-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin: 15px 0;
+            text-shadow: 0 0 20px currentColor;
+        }
+
+        .status-badge {
+            display: inline-block;
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 8px 24px;
+            border-radius: 30px;
+            margin-bottom: 25px;
+        }
+
+        .status-badge.pass {
+            background: rgba(34, 197, 94, 0.2);
+            border: 2px solid var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .status-badge.fail {
+            background: rgba(239, 68, 68, 0.2);
+            border: 2px solid var(--accent-red);
+            color: var(--accent-red);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Stars Canvas -->
+    <canvas id="stars-canvas"></canvas>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast-notification">
+        <i id="toast-icon" class="fas fa-info-circle"></i>
+        <span id="toast-text">اشعار</span>
+    </div>
+
+    <!-- Theme Switcher (Day/Night) - Compact & Positioned in Top Corner -->
+    <button class="theme-toggle-btn" onclick="toggleTheme()">
+        <i class="fas fa-moon" id="theme-icon"></i> <span id="theme-text">الوضع الليلي</span>
+    </button>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>اختبار قواعد منهج Schritte</h1>
+            <div class="author">إعداد : علي خليل</div>
+        </header>
+
+        <!-- Waving German Flag in Glowing Box -->
+        <div class="flag-section">
+            <div class="flag-frame">
+                <div class="german-flag">
+                    <div class="flag-stripe black"></div>
+                    <div class="flag-stripe red"></div>
+                    <div class="flag-stripe gold"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Box -->
+        <div class="contact-card">
+            <h3>للتواصل</h3>
+            <div class="social-links">
+                <a href="https://t.me/ss4ee1" target="_blank" class="social-btn telegram">
+                    <i class="fab fa-telegram-plane fa-lg"></i>
+                    <span>تليجرام : ss4ee1</span>
+                </a>
+                <a href="https://www.tiktok.com/@eezuui" target="_blank" class="social-btn tiktok">
+                    <i class="fab fa-tiktok fa-lg"></i>
+                    <span>تيكتوك : eezuui</span>
+                </a>
+                <a href="https://www.instagram.com/eezuui" target="_blank" class="social-btn instagram">
+                    <i class="fab fa-instagram fa-lg"></i>
+                    <span>انستكرام : eezuui</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Part Selection Box -->
+        <div class="section-box">
+            <h2>اختر الجزء</h2>
+            <div class="parts-buttons">
+                <button class="shiny-btn part-btn active-part" id="part1-btn" onclick="selectPart(1)">تمارين الجزء الأول</button>
+                <button class="shiny-btn part-btn" id="part2-btn" onclick="selectPart(2)">تمارين الجزء الثاني</button>
+            </div>
+        </div>
+
+        <!-- Part 1 Nav -->
+        <div id="part1-nav" class="lessons-nav">
+            <button class="lesson-tab active" onclick="loadLesson(0)">الدرس 1 (KB 18)</button>
+            <button class="lesson-tab" onclick="loadLesson(1)">الدرس 2 (KB 30)</button>
+            <button class="lesson-tab" onclick="loadLesson(2)">الدرس 3 (KB 42)</button>
+            <button class="lesson-tab" onclick="loadLesson(3)">الدرس 4 (KB 54)</button>
+            <button class="lesson-tab" onclick="loadLesson(4)">الدرس 5 (KB 66)</button>
+            <button class="lesson-tab" onclick="loadLesson(5)">الدرس 6 (KB 78)</button>
+            <button class="lesson-tab" onclick="loadLesson(6)">الدرس 7 (KB 90)</button>
+        </div>
+
+        <!-- Part 2 Nav -->
+        <div id="part2-nav" class="lessons-nav" style="display: none;">
+            <button class="lesson-tab active" onclick="loadLesson(0)">الدرس 8 (KB 102)</button>
+            <button class="lesson-tab" onclick="loadLesson(1)">الدرس 9 (KB 114)</button>
+            <button class="lesson-tab" onclick="loadLesson(2)">الدرس 10 (KB 126)</button>
+            <button class="lesson-tab" onclick="loadLesson(3)">الدرس 11 (KB 138)</button>
+            <button class="lesson-tab" onclick="loadLesson(4)">الدرس 12 (KB 150)</button>
+            <button class="lesson-tab" onclick="loadLesson(5)">الدرس 13 (KB 162)</button>
+            <button class="lesson-tab" onclick="loadLesson(6)">الدرس 14 (KB 174)</button>
+        </div>
+
+        <!-- Unified Quiz Container -->
+        <div id="quiz-container">
+            <div class="quiz-card" id="quiz-box">
+                <div class="quiz-header">
+                    <span id="lesson-title" style="font-weight: bold; color: var(--accent-glow);">الدرس 1</span>
+                    <span class="progress-badge" id="progress-text">سؤال 1 / 25</span>
+                </div>
+
+                <div class="rule-note">
+                    <i class="fas fa-exclamation-triangle me-1"></i> تنبيه هام: يراعى دقة تصريف الفعل والحروف الكبيرة (Großschreibung) للأسماء وبداية الجمل.
+                </div>
+
+                <div class="question-text" id="question-text">جاري تحميل السؤال...</div>
+
+                <!-- Input / Interaction Area -->
+                <div class="interaction-area" id="interaction-area">
+                    <!-- Dynamic question content injected here -->
+                </div>
+
+                <!-- CORRECTION & EXPLANATION BOX -->
+                <div class="correction-box" id="correction-box"></div>
+
+                <!-- Action Bar Buttons -->
+                <div class="action-bar">
+                    <button class="shiny-btn" id="check-btn" onclick="checkAnswer()">تحقق من الإجابة</button>
+                    <button class="shiny-btn" id="next-btn" onclick="nextQuestion()" style="display: none; background: linear-gradient(135deg, #10b981, #059669);">السؤال التالي <i class="fas fa-arrow-left me-1"></i></button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Web Audio API Synthesizer for UI Sounds
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+
+            if (type === 'click') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(800, now);
+                osc.frequency.exponentialRampToValueAtTime(400, now + 0.04);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.04);
+                osc.start(now);
+                osc.stop(now + 0.04);
+            } else if (type === 'correct') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
+                osc.frequency.setValueAtTime(783.99, now + 0.16); // G5
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                osc.start(now);
+                osc.stop(now + 0.35);
+            } else if (type === 'error') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, now); // A3
+                osc.frequency.setValueAtTime(160, now + 0.12);
+                gain.gain.setValueAtTime(0.25, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                osc.start(now);
+                osc.stop(now + 0.35);
+            }
+        }
+
+        // Click Sound listener for interactive elements
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('button, .social-btn, .word-chip, .lesson-tab, .option-btn')) {
+                playSound('click');
+            }
+        });
+
+        // Toast Notification System
+        function showToast(message, isSuccess) {
+            const toast = document.getElementById('toast');
+            const icon = document.getElementById('toast-icon');
+            const text = document.getElementById('toast-text');
+
+            text.innerText = message;
+            toast.className = 'toast-notification ' + (isSuccess ? 'success' : 'error');
+            icon.className = isSuccess ? 'fas fa-check-circle' : 'fas fa-times-circle';
+
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2200);
+        }
+
+        // Dark Sky Canvas with Stars
+        const canvas = document.getElementById('stars-canvas');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        for (let i = 0; i < 40; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 1.2 + 0.4,
+                alpha: Math.random(),
+                speed: Math.random() * 0.008 + 0.003
+            });
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(star => {
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(224, 242, 254, ${Math.abs(Math.sin(star.alpha)) * 0.7})`;
+                ctx.fill();
+                star.alpha += star.speed;
+            });
+            requestAnimationFrame(drawStars);
+        }
+        drawStars();
+
+        // Theme Toggle Function (Day / Night Mode)
+        let currentTheme = 'dark';
+        function toggleTheme() {
+            currentTheme = (currentTheme === 'dark') ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            
+            const themeIcon = document.getElementById('theme-icon');
+            const themeText = document.getElementById('theme-text');
+            
+            if (currentTheme === 'light') {
+                themeIcon.className = 'fas fa-sun';
+                themeText.innerText = 'الوضع النهاري';
+            } else {
+                themeIcon.className = 'fas fa-moon';
+                themeText.innerText = 'الوضع الليلي';
+            }
+        }
+
+        // PART 1 DATA (Lessons 1-7)
+        const lessonsDataPart1 = [
+            // Lesson 1 (KB 18)
+            {
+                title: "الدرس 1 (KB 18): الجملة والأسئلة وتصريف الأفعال",
+                questions: [
+                    { type: 'fill', question: 'صرف الفعل مع الضمير في الجملة الخبرية: Ich _____ (kommen) aus Deutschland.', answer: 'komme', exp: 'مع الضمير الشخصي Ich ينتهي جذر الفعل دائماً بالحرف e، لذلك التصريف الصحيح هو (komme).' },
+                    { type: 'mcq', question: 'اختر تصريف الفعل الصحيح مع الضمير Sie الرسمية: Wie _____ Sie?', options: ['heißen', 'heißt', 'heiße'], answer: 'heißen', exp: 'مع الضمير الرسمي Sie يأخذ الفعل دائماً الصيغة المصدرية الكاملة بالنهاية en فتصبح (heißen).' },
+                    { type: 'reorder', question: 'رتب الجملة التالية باحترام الحرف الكبير في البداية (Ich):', words: ['Deutschland.', 'aus', 'komme', 'Ich'], answer: 'Ich komme aus Deutschland.', exp: 'تأتي بداية الجملة دائماً بحرف كبير (Ich)، ويقع الفعل المصرف دائماً بالمركز الثاني (komme)، ثم باقي الجملة.' },
+                    { type: 'tf', question: 'في الجملة الخبرية (Aussage) في اللغة الألمانية يقع الفعل دائماً في المركز الثاني (Position 2).', options: ['صح', 'خطأ'], answer: 'صح', exp: 'قاعدة ذهبية في القواعد: الفعل يقع دائماً بالمركز الثاني (Position 2) في الجمل الخبرية.' },
+                    { type: 'fill', question: 'أكمل كلمة السؤال المناسبة بحرف كبير في بداية الجملة للسؤال عن الفاعل العاقل: _____ ist das?', answer: 'Wer', exp: 'نستخدم أداة السؤال Wer بحرف W كبير للسؤال عن الأشخاص العاقلين (من هذا؟).' },
+                    { type: 'mcq', question: 'تصريف فعل الكينونة (sein) مع الضمير du هو:', options: ['bist', 'bin', 'sind'], answer: 'bist', exp: 'فعل الكينونة sein فعل غير منتظم وتصريفه الخاص مع الضمير du هو (bist).' },
+                    { type: 'reorder', question: 'رتب السؤال التالي باحترام الحرف الكبير لبداية السؤال (Sprechen):', words: ['Sie', 'Sprechen', 'Deutsch?'], answer: 'Sprechen Sie Deutsch?', exp: 'في سؤال نعم/لا يتقدم الفعل للمركز الأول بحرف كبير (Sprechen) ثم الضمير Sie والاسم Deutsch بحرف كبير.' },
+                    { type: 'fill', question: 'صرف الفعل sprechen مع الضمير du (انتبه لتغير حرف e إلى i): Du _____ gut Deutsch.', answer: 'sprichst', exp: 'الفعل sprechen من الأفعال القوية الشاذة التي يتحول فيها حرف e إلى i مع الضمير du فتصبح (sprichst).' },
+                    { type: 'mcq', question: 'اختر كلمة السؤال المناسبة للسؤال عن الموطن/الأصل: _____ kommen Sie? - Aus Deutschland.', options: ['Woher', 'Wer', 'Wie'], answer: 'Woher', exp: 'نسأل عن الموطن والدولة القادم منها بكلمة السؤال Woher (من أين).' },
+                    { type: 'tf', question: 'تصريف الفعل heißen مع الضمير du هو: du heißst.', options: ['صح', 'خطأ'], answer: 'خطأ', exp: 'خطأ إملائي ونحوي! لأن جذر الفعل ينتهي بحرف Eszett (ß)، فنكتفي بإضافة t فقط لتصبح (du heißt).' },
+                    { type: 'fill', question: 'صرف فعل الكينونة مع Mein Name: Mein Name _____ Walter.', answer: 'ist', exp: 'الاسم Mein Name مفرد يعامل معاملة er/es/sie وبالتالي يتصرف مع فعل الكينونة بـ (ist).' },
+                    { type: 'mcq', question: 'تصريف الفعل sprechen مع الضمير (ich) هو:', options: ['spreche', 'sprichst', 'spricht'], answer: 'spreche', exp: 'مع الضمير ich يأخذ الفعل النهاية القياسية e دون تغير الحرف الداخلي فتصبح (spreche).' },
+                    { type: 'reorder', question: 'رتب السؤال التالي بكلمة السؤال (Wer):', words: ['du?', 'bist', 'Wer'], answer: 'Wer bist du?', exp: 'تبدأ بكلمة السؤال Wer بحرف كبير، ثم الفعل المصرف bist بالمركز الثاني، ثم الضمير du.' },
+                    { type: 'fill', question: 'أكمل بكلمة السؤال بحرف كبير للسؤال عن اللغات: _____ sprechen Sie?', answer: 'Was', exp: 'نسأل عن اللغات والأنشطة بكلمة السؤال Was بحرف كبير W (ماذا تتحدث؟).' },
+                    { type: 'mcq', question: 'تصريف sein مع الضمير ich هو:', options: ['bin', 'bist', 'ist'], answer: 'bin', exp: 'تصريف فعل الكينونة sein مع أنا ich هو (bin).' },
+                    { type: 'fill', question: 'أكمل تصريف الفعل wohnen مع الضمير ich: Ich _____ in Berlin.', answer: 'wohne', exp: 'مع الضمير ich يأخذ الفعل النهاية e، لذلك نقول wohne.' },
+                    { type: 'mcq', question: 'اختر تصريف sein الصحيح مع الضمير Sie الرسمية: Sie _____ aus Deutschland.', options: ['sind', 'bist', 'ist'], answer: 'sind', exp: 'مع الضمير الرسمي Sie نستخدم تصريف sein: sind.' },
+                    { type: 'reorder', question: 'رتب السؤال التالي بكلمة السؤال Wie:', words: ['heißt', 'du?', 'Wie'], answer: 'Wie heißt du?', exp: 'يبدأ سؤال Wie بكلمة السؤال، ثم الفعل المصرف بالمركز الثاني، ثم الضمير du.' },
+                    { type: 'tf', question: 'في سؤال نعم/لا يبدأ السؤال بالفعل المصرف.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'في Ja/Nein-Frage يأتي الفعل المصرف في Position 1.' },
+                    { type: 'fill', question: 'أكمل السؤال عن مكان السكن: Wo _____ du?', answer: 'wohnst', exp: 'الفعل wohnen مع du يصبح wohnst.' },
+                    { type: 'mcq', question: 'اختر كلمة السؤال المناسبة للسؤال عن الاسم: _____ heißen Sie?', options: ['Wie', 'Wo', 'Wer'], answer: 'Wie', exp: 'نسأل عن الاسم باستخدام Wie heißen Sie?' },
+                    { type: 'reorder', question: 'رتب الجملة:', words: ['aus', 'Sie', 'kommen', 'Österreich.'], answer: 'Sie kommen aus Österreich.', exp: 'في الجملة الخبرية يأتي الفعل المصرف بالمركز الثاني.' },
+                    { type: 'fill', question: 'صرف الفعل machen مع الضمير er: Er _____ Deutsch.', answer: 'macht', exp: 'مع er يأخذ الفعل النهاية t، لذلك macht.' },
+                    { type: 'mcq', question: 'ما التصريف الصحيح للفعل sein مع wir؟', options: ['sind', 'seid', 'ist'], answer: 'sind', exp: 'تصريف sein مع wir هو sind.' },
+                    { type: 'tf', question: 'الفعل المصرف في الجملة الخبرية الألمانية يكون عادة في المركز الثاني.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'هذه قاعدة أساسية في ترتيب الجملة الخبرية الألمانية.' }
+                ]
+            },
+            // Lesson 2 (KB 30)
+            {
+                title: "الدرس 2 (KB 30): الضمائر وأدوات الملكية وتصريف الأفعال",
+                questions: [
+                    { type: 'mcq', question: 'عوض عن الاسم المذكر (Tim) بضمير شخصي يبدأ بحرف كبير: Tim kommt aus Berlin. _____ wohnt hier.', options: ['Er', 'Sie', 'Es'], answer: 'Er', exp: 'نعوض عن الاسم المذكر المفرد Tim بالضمير الشخصي Er (هو).' },
+                    { type: 'fill', question: 'أكمل بأداة الملكية للمذكر (Bruder): Das ist _____ Bruder.', answer: 'mein', exp: 'الأخ der Bruder اسم مذكر، لذلك أداة الملكية الخاصة بي تكون (mein) بدون إضافة e.' },
+                    { type: 'tf', question: 'تستخدم أداة الملكية (meine) مع الأسماء المؤنثة والجمع فقط.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'قاعدة ثابتة: نضيف الحرف e لأداة الملكية فقط مع المؤنث (Mutter) أو الجمع (Geschwister).' },
+                    { type: 'reorder', question: 'رتب الجملة التالية باحترام الحروف الكبيرة (Das / Mutter):', words: ['meine', 'Das', 'Mutter.', 'ist'], answer: 'Das ist meine Mutter.', exp: 'تترتب بالبدء بـ Das بحرف كبير، ثم الفعل ist، وأداة الملكية meine لأن الأم Mutter مؤنث يبدأ بحرف كبير.' },
+                    { type: 'fill', question: 'صرف الفعل haben مع الضمير du: Du _____ zwei Kinder.', answer: 'hast', exp: 'عند تصريف الفعل haben مع الضمير du يسقط حرف b فتصبح (hast).' },
+                    { type: 'mcq', question: 'عوض عن الجمع (Lara und Tim) بضمير شخصي مناسب:', options: ['sie', 'er', 'es'], answer: 'sie', exp: 'نعوض عن اسمين معاً (جمع) بالضمير الشخصي sie (هم).' },
+                    { type: 'fill', question: 'أكمل بأداة الملكية للمخاطب الرسمي (Sie) بحرف كبير مع المحايد (Kind): Ist das _____ Kind?', answer: 'Ihr', exp: 'مع صيغة الاحترام Sie والاسم المحايد das Kind نستخدم أداة الملكية Ihr بحرف I كبير.' },
+                    { type: 'mcq', question: 'تصريف الفعل leben مع الضمير er/sie هو:', options: ['lebt', 'leben', 'lebst'], answer: 'lebt', exp: 'مع ضمائر الغائب المفرد er/sie يأخذ الفعل النهاية t فتصبح (lebt).' },
+                    { type: 'reorder', question: 'رتب الجملة مع اسم الجمع (Großeltern):', words: ['meine', 'sind', 'Das', 'Großeltern.'], answer: 'Das sind meine Großeltern.', exp: 'مع اسم الجمع الجدان Großeltern نستخدم الفعل بالجمع sind وأداة الملكية meine.' },
+                    { type: 'tf', question: 'تصريف الفعل haben مع er/sie/es هو: hat.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'تصريف صحيح للغاية: er/sie/es hat.' },
+                    { type: 'fill', question: 'أكمل بأداة الملكية للمخاطب (du) مع اسم الجمع (Geschwister): Sind das _____ Geschwister?', answer: 'deine', exp: 'مع أسماء الجمع نضيف e لأداة الملكية للمخاطب du فتصبح (deine).' },
+                    { type: 'mcq', question: 'الضمير المناسب للتعويض عن الاسم المؤنث (Lara) هو:', options: ['sie', 'er', 'es'], answer: 'sie', exp: 'Lara اسم مؤنث مفرد نعوض عنه بالضمير الشخصي sie (هي).' },
+                    { type: 'fill', question: 'صرف الفعل sein مع الضمير wir: Wir _____ in Berlin.', answer: 'sind', exp: 'تصريف فعل الكينونة sein مع الضمير نحن wir هو (sind).' },
+                    { type: 'reorder', question: 'رتب السؤال التالي بحرف كبير للمذكر (Vater):', words: ['dein', 'Ist', 'Vater?'], answer: 'Ist dein Vater?', exp: 'يبدأ السؤال بالفعل Ist بحرف كبير، ثم أداة الملكية dein، والاسم المذكر Vater بحرف كبير.' },
+                    { type: 'mcq', question: 'تصريف الفعل sprechen مع الضمير ihr هو:', options: ['sprecht', 'sprechen', 'spricht'], answer: 'sprecht', exp: 'مع الضمير ihr (أنتم) يأخذ الفعل النهاية t دون تغيير الحرف الداخلي فتصبح (sprecht).' },
+                    { type: 'fill', question: 'أكمل بأداة الملكية مع الاسم المذكر Bruder: Das ist _____ Bruder.', answer: 'dein', exp: 'مع du وأسماء المذكر في صيغة الملكية نستخدم dein.' },
+                    { type: 'mcq', question: 'ما الضمير المناسب لـ Anna؟', options: ['sie', 'er', 'es'], answer: 'sie', exp: 'Anna اسم مؤنث، والضمير الشخصي المناسب هو sie.' },
+                    { type: 'reorder', question: 'رتب الجملة:', words: ['ist', 'Das', 'dein', 'Vater.'], answer: 'Das ist dein Vater.', exp: 'تبدأ الجملة بـ Das، ثم ist، ثم أداة الملكية والاسم.' },
+                    { type: 'tf', question: 'أداة الملكية unser مع الجمع تصبح unsere.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'مع الأسماء المؤنثة والجمع نضيف e إلى أداة الملكية، لذلك unsere.' },
+                    { type: 'fill', question: 'صرف haben مع الضمير wir: Wir _____ drei Kinder.', answer: 'haben', exp: 'تصريف haben مع wir هو haben.' },
+                    { type: 'mcq', question: 'أداة الملكية المناسبة مع Sie الرسمية والاسم المؤنث Mutter هي:', options: ['Ihre', 'Ihr', 'deine'], answer: 'Ihre', exp: 'مع Sie الرسمية نستخدم Ihr، ومع الاسم المؤنث نضيف e: Ihre.' },
+                    { type: 'reorder', question: 'رتب الجملة مع الجمع:', words: ['sind', 'meine', 'Das', 'Freunde.'], answer: 'Das sind meine Freunde.', exp: 'Freunde جمع، لذلك نستخدم sind وmeine.' },
+                    { type: 'fill', question: 'أكمل: Ihr _____ aus München.', answer: 'kommt', exp: 'الفعل kommen مع ihr يأخذ النهاية t: kommt.' },
+                    { type: 'mcq', question: 'الضمير المناسب لـ das Kind هو:', options: ['es', 'sie', 'er'], answer: 'es', exp: 'الاسم المحايد das Kind يُعوض عنه بالضمير es.' },
+                    { type: 'tf', question: 'مع الضمير du يكون تصريف haben هو hast.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'تصريف haben مع du هو hast.' }
+                ]
+            },
+            // Lesson 3 (KB 42)
+            {
+                title: "الدرس 3 (KB 42): الأسئلة بنعم/لا، النفي والجمع والفعل möchten",
+                questions: [
+                    { type: 'reorder', question: 'رتب سؤال نعم/لا (Ja/Nein-Frage) بحرف كبير في بداية الفعل (Haben):', words: ['Sie', 'Eier?', 'Haben'], answer: 'Haben Sie Eier?', exp: 'في سؤال نعم/لا يتقدم الفعل للمركز الأول بحرف كبير (Haben) والاسم Eier بحرف كبير.' },
+                    { type: 'fill', question: 'انفِ الاسم المذكر (ein Apfel) بأداة النفي المناسبة: Das ist _____ Apfel.', answer: 'kein', exp: 'نفي الاسم المذكر غير المعرف ein يكون بـ kein (والاسم Apfel يبدأ بحرف كبير).' },
+                    { type: 'mcq', question: 'ما هو جمع كلمة البيضة (das Ei) مع الأداة والجمع الصحيح؟', options: ['die Eier', 'die Eiern', 'die Eies'], answer: 'die Eier', exp: 'جمع كلمة das Ei هو die Eier بإضافة er وأداة الجمع die.' },
+                    { type: 'fill', question: 'صرف الفعل möchten بحرف كبير في بداية السؤال مع du: _____ du Pfannkuchen?', answer: 'Möchtest', exp: 'تصريف möchten مع du هو möchtest، وحيث أنه بداية السؤال يبدأ بـ M كبير.' },
+                    { type: 'tf', question: 'في السؤال الذي يجاب عنه بـ Ja/Nein يقع الفعل دائماً في المركز الأول (Position 1).', options: ['صح', 'خطأ'], answer: 'صح', exp: 'قاعدة ثابتة: Ja/Nein-Frage يتقدم فيها الفعل دائماً إلى Position 1.' },
+                    { type: 'mcq', question: 'نفي الاسم المؤنث (eine Birne) بأداة النفي هو:', options: ['keine Birne', 'kein Birne', 'nicht Birne'], answer: 'keine Birne', exp: 'الاسم المؤنث ينفى بإضافة e لأداة النفي لتصبح keine.' },
+                    { type: 'reorder', question: 'رتب الجملة التالية مع اسم الجمع (Äpfel):', words: ['Ich', 'oft', 'Äpfel.', 'kaufe'], answer: 'Ich kaufe oft Äpfel.', exp: 'تترتب: Ich فاعل، kaufe فعل بالمركز الثاني، oft ظرف، والاسم Äpfel بالجمع بحرف كبير.' },
+                    { type: 'fill', question: 'اكتب جمع الكلمة المؤنثة (die Banane) بحرف كبير: die _____', answer: 'Bananen', exp: 'جمع die Banane هو Bananen بإضافة n وتكتب B بحرف كبير.' },
+                    { type: 'mcq', question: 'تصريف الفعل möchten مع الضمير er/sie/es هو:', options: ['möchte', 'möchtest', 'möchten'], answer: 'möchte', exp: 'من قواعد الأفعال الناقصة و möchten أن تصريف ich يطابق تصريف er/sie/es (möchte).' },
+                    { type: 'tf', question: 'توجد أداة نكرة (indefiniter Artikel) لأسماء الجمع في اللغة الألمانية.', options: ['صح', 'خطأ'], answer: 'خطأ', exp: 'لا توجد أداة نكرة للجمع (Nullartikel)، بينما توجد أداة نفي للجمع (keine).' },
+                    { type: 'fill', question: 'أكمل بأداة نفي الجمع المناسبة: Das sind _____ Tomaten.', answer: 'keine', exp: 'نفي أسماء الجمع دائماً بأداة keine.' },
+                    { type: 'mcq', question: 'اختر الإجابة المناسبة للسؤال عن السعر (Was kostet eine Flasche Milch?):', options: ['78 Cent.', 'Ja, bitte.', 'Ich kaufe.'], answer: '78 Cent.', exp: 'السؤال بـ Was kostet يسأل عن القيمة المالية فيكون الجواب بالسنتات أو اليورو.' },
+                    { type: 'reorder', question: 'رتب السؤال مع الاسم المذكر (Käse):', words: ['du', 'Käse?', 'Hast'], answer: 'Hast du Käse?', exp: 'Hast يبدأ بحرف كبير، والاسم Käse يبدأ بحرف كبير K.' },
+                    { type: 'fill', question: 'صرف الفعل möchten مع الضمير ihr: Ihr _____ Tee.', answer: 'möchtet', exp: 'مع الضمير ihr يأخذ الفعل النهاية t فتصبح möchtet.' },
+                    { type: 'mcq', question: 'ما هو جمع كلمة الخبز (das Brot)؟', options: ['die Brote', 'die Bröte', 'die Broten'], answer: 'die Brote', exp: 'جمع كلمة das Brot هو die Brote.' },
+                    { type: 'fill', question: 'انفِ الاسم المذكر: Das ist _____ Stuhl.', answer: 'kein', exp: 'نفي الاسم المذكر غير المعرف يكون بـ kein.' },
+                    { type: 'mcq', question: 'اختر جمع كلمة die Orange:', options: ['die Orangen', 'die Orangee', 'die Oranges'], answer: 'die Orangen', exp: 'جمع Orange هو Orangen.' },
+                    { type: 'reorder', question: 'رتب سؤال نعم/لا:', words: ['du', 'Kaffee?', 'Trinkst'], answer: 'Trinkst du Kaffee?', exp: 'في سؤال نعم/لا يأتي الفعل أولًا.' },
+                    { type: 'tf', question: 'نستخدم keine لنفي أسماء الجمع.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'نفي الجمع يكون باستخدام keine.' },
+                    { type: 'fill', question: 'صرف möchten مع الضمير wir: Wir _____ Pizza.', answer: 'möchten', exp: 'تصريف möchten مع wir هو möchten.' },
+                    { type: 'mcq', question: 'ما جمع das Brötchen؟', options: ['die Brötchen', 'die Brötchens', 'die Brötchenen'], answer: 'die Brötchen', exp: 'Brötchen لها نفس الشكل في المفرد والجمع، وأداة الجمع هي die.' },
+                    { type: 'reorder', question: 'رتب الجملة:', words: ['keine', 'Ich', 'Bananen.', 'möchte'], answer: 'Ich möchte keine Bananen.', exp: 'مع الجمع المنفي نستخدم keine.' },
+                    { type: 'fill', question: 'أكمل: Das ist _____ Orange.', answer: 'keine', exp: 'Orange مؤنث، لذلك نستخدم keine لنفيها.' },
+                    { type: 'mcq', question: 'تصريف möchten مع الضمير du هو:', options: ['möchtest', 'möchte', 'möchten'], answer: 'möchtest', exp: 'مع du يصبح möchten: möchtest.' },
+                    { type: 'tf', question: 'في سؤال Ja/Nein يأتي الفعل بعد الضمير.', options: ['صح', 'خطأ'], answer: 'خطأ', exp: 'الفعل يأتي أولًا في سؤال نعم/لا، ثم الفاعل.' }
+                ]
+            },
+            // Lesson 4 (KB 54)
+            {
+                title: "الدرس 4 (KB 54): أدوات التعريف، التعويض والنفي بـ nicht/kein",
+                questions: [
+                    { type: 'mcq', question: 'ما هي أداة التعريف المعرفة للكلمة المذكرة (Balkon)؟', options: ['der Balkon', 'das Balkon', 'die Balkon'], answer: 'der Balkon', exp: 'اسم الشرفة مذكر في الألمانية: der Balkon.' },
+                    { type: 'fill', question: 'عوض عن الاسم المذكر (der Balkon) بضمير شخصي بحرف كبير في بداية الجملة: Wo ist der Balkon? - _____ ist dort.', answer: 'Er', exp: 'كل اسم أداته der نعوض عنه بالضمير Er (هو).' },
+                    { type: 'tf', question: 'نعوض عن الأسماء المحايدة التي أداتها (das) بالضمير الشخصي (es).', options: ['صح', 'خطأ'], answer: 'صح', exp: 'قاعدة التعويض بالضمائر: der -> er / das -> es / die -> sie.' },
+                    { type: 'reorder', question: 'رتب الجملة المنفية بـ (nicht) لنفي الصفة (groß):', words: ['Zimmer', 'Das', 'ist', 'nicht', 'groß.'], answer: 'Das Zimmer ist nicht groß.', exp: 'Das Zimmer فاعل بحرف كبير، ist فعل، nicht لنفي الصفة groß.' },
+                    { type: 'mcq', question: 'اختر أدوات التعريف الصحيحة بالترتيب للكلمات: Bad (محايد), Küche (مؤنث)', options: ['das, die', 'der, die', 'das, der'], answer: 'das, die', exp: 'das Bad (الحمام) و die Küche (المطبخ).' },
+                    { type: 'fill', question: 'انفِ الصفة (schön) بالأداة المناسبة: Das Haus ist _____ schön.', answer: 'nicht', exp: 'نستخدم nicht لنفي الصفات والظروف والأفعال.' },
+                    { type: 'fill', question: 'انفِ الاسم المحايد (Bad) بأداة النفي المناسبة: Hier ist _____ Bad.', answer: 'kein', exp: 'نستخدم kein لنفي الأسماء غير المعرفة المذكرة والمحايدة.' },
+                    { type: 'mcq', question: 'عوض عن الاسم المؤنث (die Küche): Wo ist die Küche? - _____ ist hier.', options: ['Sie', 'Er', 'Es'], answer: 'Sie', exp: 'كل اسم أداته die نعوض عنه بالضمير Sie (هي).' },
+                    { type: 'reorder', question: 'رتب الجملة التالية لنفي الفعل/المكان بـ (nicht):', words: ['wohnt', 'nicht', 'Walter', 'hier.'], answer: 'Walter wohnt nicht hier.', exp: 'Walter اسم علم بحرف كبير، wohnt بالمركز الثاني، nicht تنفي وجوده هنا.' },
+                    { type: 'tf', question: 'تُستخدم (nicht) لنفي الصفات والأفعال والأسماء المعرفة بينما تُستخدم (kein) لنفي الأسماء.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'قاعدة النفي الأساسية في خطوات Schritte.' },
+                    { type: 'mcq', question: 'ما هو جمع كلمة غرف الأطفال (das Kinderzimmer) مع أداة التعريف؟', options: ['die Kinderzimmer', 'der Kinderzimmer', 'das Kinderzimmer'], answer: 'die Kinderzimmer', exp: 'أداة تعريف الجمع دائماً die.' },
+                    { type: 'fill', question: 'عوض عن اسم الجمع (die Lampen) بضمير بحرف كبير: Wo sind die Lampen? - _____ sind dort.', answer: 'Sie', exp: 'نعوض عن أسماء الجمع بالضمير Sie (هم).' },
+                    { type: 'reorder', question: 'رتب الجملة التالية باحترام الحروف الكبيرة (Hier / Küche):', words: ['keine', 'Hier', 'Küche.', 'ist'], answer: 'Hier ist keine Küche.', exp: 'Hier بالبداية بحرف كبير، ist الفعل، والاسم المؤنث Küche بحرف كبير.' },
+                    { type: 'fill', question: 'اكتب أداة التعريف بحرف صغير للثلاجة: _____ Kühlschrank', answer: 'der', exp: 'أداة ثلاجة الطعام المذكرة هي der Kühlschrank.' },
+                    { type: 'mcq', question: 'أنفِ الجملة (Das ist ein Haus) بالنفي المناسب للاسم المحايد:', options: ['Das ist kein Haus.', 'Das ist nicht Haus.', 'Das ist keine Haus.'], answer: 'Das ist kein Haus.', exp: 'ein Haus اسم محايد ننفيه بـ kein Haus.' },
+                    { type: 'fill', question: 'أكمل أداة التعريف: _____ Tisch.', answer: 'der', exp: 'Tisch اسم مذكر، وأداة تعريفه der.' },
+                    { type: 'mcq', question: 'الضمير المناسب لـ das Fenster هو:', options: ['es', 'er', 'sie'], answer: 'es', exp: 'الاسم المحايد das Fenster يُعوض عنه بـ es.' },
+                    { type: 'reorder', question: 'رتب الجملة المنفية:', words: ['ist', 'Das', 'nicht', 'teuer.'], answer: 'Das ist nicht teuer.', exp: 'nicht تأتي لنفي الصفة teuer.' },
+                    { type: 'tf', question: 'نستخدم nicht لنفي الصفة.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'nicht تُستخدم لنفي الصفات والظروف والأفعال بحسب تركيب الجملة.' },
+                    { type: 'fill', question: 'انفِ الاسم المذكر: Hier ist _____ Tisch.', answer: 'kein', exp: 'Tisch مذكر غير معرف، لذلك نستخدم kein.' },
+                    { type: 'mcq', question: 'ما أداة التعريف لكلمة Zimmer؟', options: ['das', 'der', 'die'], answer: 'das', exp: 'Zimmer اسم محايد وأداته das.' },
+                    { type: 'reorder', question: 'رتب:', words: ['keine', 'Hier', 'ist', 'Tür.'], answer: 'Hier ist keine Tür.', exp: 'Tür مؤنث، ونفي الاسم المؤنث يكون keine.' },
+                    { type: 'fill', question: 'عوض عن die Tür بضمير: _____ ist offen.', answer: 'Sie', exp: 'Tür مؤنث، لذلك نعوض عنها بالضمير Sie في بداية الجملة.' },
+                    { type: 'mcq', question: 'أنفِ الجملة: Das Zimmer ist groß.', options: ['Das Zimmer ist nicht groß.', 'Das Zimmer ist kein groß.', 'Das Zimmer ist keine groß.'], answer: 'Das Zimmer ist nicht groß.', exp: 'الصفة groß تُنفى بـ nicht.' },
+                    { type: 'tf', question: 'أداة التعريف للجمع في الألمانية هي die.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'جميع الأسماء في صيغة الجمع تأخذ أداة التعريف die.' }
+                ]
+            },
+            // Lesson 5 (KB 66)
+            {
+                title: "الدرس 5 (KB 66): الأفعال المنفصلة وحروف الجر الزمانية",
+                questions: [
+                    { type: 'reorder', question: 'رتب الجملة مع الفعل المنفصل (aufräumen -> räume ... auf):', words: ['mein', 'Ich', 'Zimmer', 'auf.', 'räume'], answer: 'Ich räume mein Zimmer auf.', exp: 'الفعل الاصلي räume بالمركز الثاني، والمقطع المنفصل auf يقع في أخر الجملة، والاسم Zimmer بحرف كبير.' },
+                    { type: 'fill', question: 'أكمل حرف الجر الزماني الخاص بالساعات والأوقات المحددة: Ich komme _____ halb drei.', answer: 'um', exp: 'نستخدم حرف الجر um دائماً مع التوقيت بالدقائق والساعات (um halb drei).' },
+                    { type: 'mcq', question: 'اختر حرف الجر الزماني المناسب لأيام الأسبوع (Montag):', options: ['am', 'um', 'im'], answer: 'am', exp: 'مع أيام الأسبوع والتواريخ نستخدم am (am Montag).' },
+                    { type: 'fill', question: 'صرف الفعل المنفصل aufstehen مع Lara: Lara _____ früh auf.', answer: 'steht', exp: 'مع Lara ينفصل الفعل فيصبح: steht ... auf.' },
+                    { type: 'tf', question: 'في الأفعال المنفصلة (Trennbare Verben)، ينفصل المقطع الأمامي ويوضع دائماً في نهاية الجملة.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'قاعدة الأفعال المنفصلة: الجزء الأول ينزل إلى أخر نقطة بالجملة.' },
+                    { type: 'reorder', question: 'رتب الجملة مع الفعل einkaufen والاسم (Supermarkt):', words: ['im', 'Lara', 'kauft', 'ein.', 'Supermarkt'], answer: 'Lara kauft im Supermarkt ein.', exp: 'Lara فاعل، kauft بالمركز الثاني، Supermarkt اسم بحرف كبير، والمقطع ein بالنهاية.' },
+                    { type: 'mcq', question: 'اختر حرفي الجر للفترة الزمانية الممتدة (من الاثنين إلى الجمعة):', options: ['von ... bis', 'am ... um', 'um ... bis'], answer: 'von ... bis', exp: 'للتعبير عن بداية ونهاية فترة زمنية نستخدم von ... bis.' },
+                    { type: 'fill', question: 'صرف الفعل anfangen مع الضمير du (مع الإمالة ä): Wann _____ du an?', answer: 'fängst', exp: 'الفعل الشاذ anfangen تتحول a إلى ä مع du لتصبح fängst an.' },
+                    { type: 'mcq', question: 'تصريف الفعل المنفصل fernsehen مع الضمير er/sie هو:', options: ['sieht fern', 'seht fern', 'sehen fern'], answer: 'sieht fern', exp: 'مع er/sie تتحول e إلى ie فيصبح يتفرج: sieht fern.' },
+                    { type: 'reorder', question: 'ابدأ الجملة بظرف الزمان (Am Morgen) ورتب بقية الجملة مع الفعل بالمركز الثاني:', words: ['trinkt', 'Am Morgen', 'Kaffee.', 'Robert'], answer: 'Am Morgen trinkt Robert Kaffee.', exp: 'عند تقديم الظرف الزماني Am Morgen، يظل الفعل trinkt في المركز الثاني.' },
+                    { type: 'tf', question: 'عند تقديم الظرف الزماني إلى بداية الجملة، يظل الفعل الرئيسي محتفظاً بالمركز الثاني (Position 2).', options: ['صح', 'خطأ'], answer: 'صح', exp: 'قاعدة ذهبية: موقع الفعل ثابت دائماً بالمرتبة الثانية.' },
+                    { type: 'fill', question: 'صرف الفعل schlafen مع الضمير du (انتبه للإمالة ä): Du _____ spät.', answer: 'schläfst', exp: 'مع du تأخذ a إمالة ä في الفعل schlafen لتصبح schläfst.' },
+                    { type: 'mcq', question: 'اختر التعبير الزماني الصحيح لأوقات اليوم (الصباح / بعد الظهر):', options: ['am Vormittag', 'um Vormittag', 'im Vormittag'], answer: 'am Vormittag', exp: 'أوقات النهار تاخذ am (am Morgen / am Vormittag).' },
+                    { type: 'fill', question: 'اكتب المقطع المنفصل للفعل einkaufen في نهاية الجملة: Er kauft im Supermarkt _____ .', answer: 'ein', exp: 'المقطع المنفصل من einkaufen هو ein.' },
+                    { type: 'reorder', question: 'رتب السؤال التفاعلي مع الفعل المنفصل aufstehen:', words: ['du', 'auf?', 'Stehst', 'früh'], answer: 'Stehst du früh auf?', exp: 'Stehst بحرف كبير في أصل السؤال، و المقطع auf? في النهاية.' },
+                    { type: 'fill', question: 'أكمل الفعل المنفصل: Ich _____ um sieben Uhr auf.', answer: 'stehe', exp: 'الفعل aufstehen مع ich يصبح stehe ... auf.' },
+                    { type: 'mcq', question: 'أي حرف جر نستخدم مع الساعة؟', options: ['um', 'am', 'im'], answer: 'um', exp: 'مع الساعة والتوقيت المحدد نستخدم um.' },
+                    { type: 'reorder', question: 'رتب الجملة:', words: ['am', 'Wir', 'Sonntag', 'arbeiten.'], answer: 'Wir arbeiten am Sonntag.', exp: 'مع أيام الأسبوع نستخدم am.' },
+                    { type: 'tf', question: 'في الفعل المنفصل bleibt المقطع المنفصل في نهاية الجملة.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'في الجملة الرئيسية ينفصل المقطع ويأتي في النهاية.' },
+                    { type: 'fill', question: 'صرف einkaufen مع ich: Ich _____ heute ein.', answer: 'kaufe', exp: 'einkaufen مع ich يصبح kaufe ... ein.' },
+                    { type: 'mcq', question: 'التعبير الصحيح عن فترة من الثامنة إلى الخامسة هو:', options: ['von acht bis fünf', 'am acht bis fünf', 'um acht von fünf'], answer: 'von acht bis fünf', exp: 'للفترة الزمنية نستخدم von ... bis.' },
+                    { type: 'reorder', question: 'رتب السؤال:', words: ['du', 'Wann', 'auf?', 'stehst'], answer: 'Wann stehst du auf?', exp: 'Wann تأتي أولًا، ثم الفعل stehst في المركز الثاني، والمقطع auf في النهاية.' },
+                    { type: 'fill', question: 'صرف fernsehen مع er: Er _____ heute fern.', answer: 'sieht', exp: 'الفعل fernsehen مع er يصبح sieht ... fern.' },
+                    { type: 'mcq', question: 'أي تعبير صحيح؟', options: ['am Morgen', 'um Morgen', 'im Morgen'], answer: 'am Morgen', exp: 'نستخدم am مع أوقات اليوم مثل am Morgen.' },
+                    { type: 'tf', question: 'إذا بدأنا الجملة بظرف زمان، يبقى الفعل المصرف في المركز الثاني.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'تقديم الظرف لا يغير قاعدة Position 2 للفعل.' }
+                ]
+            },
+            // Lesson 6 (KB 78)
+            {
+                title: "الدرس 6 (KB 78): حالة المفعول به Akkusativ والإجابة بـ Doch والأفعال",
+                questions: [
+                    { type: 'mcq', question: 'في حالة المفعول به (Akkusativ)، تتحول أداة المذكر (der) فقط إلى:', options: ['den', 'dem', 'des'], answer: 'den', exp: 'تتغير أداة المعرفة للمذكر فقط من der إلى den في Akkusativ.' },
+                    { type: 'fill', question: 'أكمل أداة المفعول به للمذكر (der Käse) بحرف صغير: Ich habe _____ Käse.', answer: 'den', exp: 'الجبن der Käse واقع في موقع مفعول به فتتحول أداته إلى den.' },
+                    { type: 'tf', question: 'أدوات المحايد (das) والمؤنث (die) والجمع (die) لا تتغير أبداً في حالة Akkusativ.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'تغيير Akkusativ يقتصر فقط وفقط على المذكر.' },
+                    { type: 'reorder', question: 'رتب الجملة في حالة المفعول به مع الاسم المذكر (Saft):', words: ['einen', 'Ich', 'Saft.', 'möchte'], answer: 'Ich möchte einen Saft.', exp: 'الاسم المذكر Saft يبدأ بحرف كبير وأداته بالنكرة تتحول إلى einen.' },
+                    { type: 'mcq', question: 'أجب عن السؤال المنفي بالإيجاب (Hast du keinen Hunger?): - _____, ich habe Hunger!', options: ['Doch', 'Ja', 'Nein'], answer: 'Doch', exp: 'نستخدم Doch (بلى) لإلغاء النفي في السؤال والتأكيد بالإيجاب.' },
+                    { type: 'fill', question: 'صرف الفعل lesen مع الضمير du (يتغير e إلى ie): Du _____ ein Buch.', answer: 'liest', exp: 'مع الضمير du تتحول e إلى ie في الفعل lesen لتصبح liest.' },
+                    { type: 'mcq', question: 'تصريف الفعل nehmen مع الضمير er/sie هو:', options: ['nimmt', 'nehmt', 'nehmst'], answer: 'nimmt', exp: 'الفعل nehmen يتحول مع er/sie إلى nimmt.' },
+                    { type: 'fill', question: 'صرف الفعل fahren مع الضمير du (انتبه للإمالة ä): Du _____ nach Berlin.', answer: 'fährst', exp: 'تتحول a إلى ä في الفعل fahren مع du ليصبح fährst.' },
+                    { type: 'reorder', question: 'رتب السؤال مع الاسم المؤنث (Gitarre):', words: ['du', 'Gitarre?', 'Eine', 'Hast'], answer: 'Hast du eine Gitarre?', exp: 'Hast في بداية السؤال بحرف كبير، و الاسم المؤنث Gitarre بحرف كبير.' },
+                    { type: 'tf', question: 'تُستخدم الكلمة (Doch) للإجابة بالإيجاب على سؤال يحتوي على نفي (nicht / kein).', options: ['صح', 'خطأ'], answer: 'صح', exp: 'قاعدة الإجابة بـ Doch في خطوات Schritte.' },
+                    { type: 'fill', question: 'أكمل بأداة نفي المفعول به للمذكر (der Apfel): Ich habe _____ Apfel.', answer: 'keinen', exp: 'نفي النكرة المذكرة تتحول من kein إلى keinen في Akkusativ.' },
+                    { type: 'mcq', question: 'تصريف الفعل treffen مع الضمير du هو:', options: ['triffst', 'treffst', 'trifft'], answer: 'triffst', exp: 'مع du يتحول e إلى i في الفعل treffen لتصبح triffst.' },
+                    { type: 'reorder', question: 'رتب الجملة مع اسم الجمع (Freunde):', words: ['Freunde.', 'Er', 'trifft', 'seine'], answer: 'Er trifft seine Freunde.', exp: 'Er فاعل، trifft بالمركز الثاني، والاسم الجمع Freunde بحرف كبير.' },
+                    { type: 'fill', question: 'أجب بالنفي على السؤال المنفي (Sprechen Sie nicht Deutsch?): - _____, ich spreche kein Deutsch.', answer: 'Nein', exp: 'عندما تتفق مع النفي الوارد في السؤال نستخدم Nein.' },
+                    { type: 'mcq', question: 'أي من الكلمات التالية تتغير أداتها في حالة Akkusativ؟', options: ['der Kuchen', 'das Brot', 'die Milch'], answer: 'der Kuchen', exp: 'der Kuchen مذكر فيتحول إلى den / einen في حالة Akkusativ.' },
+                    { type: 'fill', question: 'أكمل أداة Akkusativ: Ich kaufe _____ Apfel.', answer: 'einen', exp: 'المذكر في Akkusativ يتحول ein إلى einen.' },
+                    { type: 'mcq', question: 'أداة المذكر المعرفة في Akkusativ هي:', options: ['den', 'dem', 'der'], answer: 'den', exp: 'der تتحول إلى den في Akkusativ.' },
+                    { type: 'reorder', question: 'رتب الجملة:', words: ['einen', 'Er', 'Kuchen.', 'isst'], answer: 'Er isst einen Kuchen.', exp: 'Kuchen مذكر في Akkusativ، لذلك يأخذ einen.' },
+                    { type: 'tf', question: 'أداة الجمع die لا تتغير في Akkusativ.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'die للجمع تبقى die في Akkusativ.' },
+                    { type: 'fill', question: 'أكمل: Ich sehe _____ Mann.', answer: 'den', exp: 'Mann مذكر معرف، لذلك تكون أداة Akkusativ هي den.' },
+                    { type: 'mcq', question: 'ما الإجابة المناسبة: Hast du keinen Kaffee?', options: ['Doch, ich habe Kaffee.', 'Nein, ich habe keinen Kaffee.', 'كلاهما حسب المعنى'], answer: 'كلاهما حسب المعنى', exp: 'Doch تُستخدم لتصحيح النفي إلى الإثبات، بينما Nein تؤكد النفي.' },
+                    { type: 'reorder', question: 'رتب السؤال:', words: ['du', 'einen', 'Film?', 'Siehst'], answer: 'Siehst du einen Film?', exp: 'يبدأ سؤال نعم/لا بالفعل، وFilm مفعول به مذكر يأخذ einen.' },
+                    { type: 'fill', question: 'صرف lesen مع er: Er _____ ein Buch.', answer: 'liest', exp: 'lesen مع er يصبح liest.' },
+                    { type: 'mcq', question: 'تصريف fahren مع er هو:', options: ['fährt', 'fahrst', 'fahren'], answer: 'fährt', exp: 'الفعل fahren يتغير a إلى ä مع er: fährt.' },
+                    { type: 'tf', question: 'تستخدم Doch عندما يكون السؤال أو الكلام السابق منفيًا ونريد الرد بالإيجاب.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'Doch تعني بلى وتصحح النفي.' }
+                ]
+            },
+            // Lesson 7 (KB 90)
+            {
+                title: "الدرس 7 (KB 90): الأفعال الناقصة وزمن الماضي التام Perfekt",
+                questions: [
+                    { type: 'fill', question: 'صرف الفعل الناقص können مع الضمير ich: Ich _____ gut Deutsch sprechen.', answer: 'kann', exp: 'تصريف يمكن المساعد können مع ich هو kann.' },
+                    { type: 'mcq', question: 'تصريف الفعل الناقص wollen مع الضمير er/sie هو:', options: ['will', 'wollt', 'wollen'], answer: 'will', exp: 'تصريف يريد wollen مع er/sie هو will بدون أمالة.' },
+                    { type: 'tf', question: 'تصريف Modalverben مع الضمير ich يماثل تماماً تصريفه مع er/sie/es.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'قاعدة الأفعال الناقصة: ich kann = er kann / ich will = er will.' },
+                    { type: 'reorder', question: 'رتب الجملة مع الفعل الناقص (kann) والمصدر في النهاية (sprechen):', words: ['kann', 'Deutsch.', 'Er', 'sprechen'], answer: 'Er kann Deutsch sprechen.', exp: 'الفعل الناقص kann في المركز الثاني والمصدر sprechen في أخر الجملة.' },
+                    { type: 'fill', question: 'اكتب تصريف Partizip II للفعل lernen في زمن الماضي: Er hat Deutsch _____.', answer: 'gelernt', exp: 'الماضي التام من lernen هو gelernt.' },
+                    { type: 'mcq', question: 'أي من الأفعال التالية يأخذ الفعل المساعد (sein) في زمن الماضي التام Perfekt لكونه يدل على الحركة؟', options: ['gehen', 'lernen', 'machen'], answer: 'gehen', exp: 'أفعال الانتقال من مكان لآخر مثل gehen تأخذ المساعد sein.' },
+                    { type: 'fill', question: 'أكمل الفعل المساعد المناسب مع الحركة (gegangen): Ich _____ nach Hause gegangen.', answer: 'bin', exp: 'مع الضمير ich وفعل الحركة gegangen نستخدم bin.' },
+                    { type: 'reorder', question: 'رتب جملة الماضي التام باحترام الحروف الكبيرة (Lara / Hausaufgaben):', words: ['hat', 'Lara', 'gemacht.', 'Hausaufgaben'], answer: 'Lara hat Hausaufgaben gemacht.', exp: 'Lara فاعل، hat مساعد، والاسم Hausaufgaben بحرف كبير، و التصريف الثالث gemacht بالنهاية.' },
+                    { type: 'mcq', question: 'ما هو التصريف الثالث (Partizip II) للفعل schreiben؟', options: ['geschrieben', 'geschreibt', 'geschreiben'], answer: 'geschrieben', exp: 'التصريف الثالث القوي للفعل schreiben هو geschrieben.' },
+                    { type: 'tf', question: 'في زمن Perfekt، يوضع الفعل المساعد (haben/sein) في المركز الثاني ويأتي Partizip II في نهاية الجملة.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'القواعد الهيكلية لتركيبة جملة الماضي التام Perfekt.' },
+                    { type: 'fill', question: 'صرف الفعل الناقص wollen مع الضمير du: Was _____ du machen?', answer: 'willst', exp: 'مع الضمير du يصبح تصريف wollen هو willst.' },
+                    { type: 'mcq', question: 'التصريف الثالث (Partizip II) للفعل trinken هو:', options: ['getrunken', 'getrankt', 'getrinken'], answer: 'getrunken', exp: 'تصريف trinken بالماضي التام هو getrunken.' },
+                    { type: 'reorder', question: 'رتب الجملة مع فعل الحركة في الماضي (gegangen):', words: ['spazieren', 'Ich', 'gegangen.', 'bin'], answer: 'Ich bin spazieren gegangen.', exp: 'Ich bin ... gegangen.' },
+                    { type: 'fill', question: 'اكتب Partizip II للفعل trinken في زمن الماضي التام: Wir haben Tee _____.', answer: 'getrunken', exp: 'التصريف الثالث هو getrunken والاسم Tee بحرف كبير T.' },
+                    { type: 'mcq', question: 'تصريف الفعل الناقص können مع الضمير ihr هو:', options: ['könnt', 'können', 'kannst'], answer: 'könnt', exp: 'مع الضمير ihr يأخذ الفعل النهاية t لتصبح könnt.' },
+                    { type: 'fill', question: 'صرف können مع ich: Ich _____ gut schwimmen.', answer: 'kann', exp: 'تصريف können مع ich هو kann.' },
+                    { type: 'mcq', question: 'ما التصريف الصحيح لـ müssen مع du؟', options: ['musst', 'muss', 'müssen'], answer: 'musst', exp: 'müssen مع du يصبح musst.' },
+                    { type: 'reorder', question: 'رتب الجملة مع فعل ناقص:', words: ['Ich', 'heute', 'muss', 'arbeiten.'], answer: 'Ich muss heute arbeiten.', exp: 'الفعل الناقص المصرف يأتي في المركز الثاني، والمصدر في نهاية الجملة.' },
+                    { type: 'tf', question: 'مع الأفعال الناقصة يأتي الفعل الأساسي في المصدر في نهاية الجملة الرئيسية.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'هذه قاعدة ترتيب الأفعال مع Modalverben.' },
+                    { type: 'fill', question: 'أكمل Perfekt مع haben: Ich _____ Deutsch gelernt.', answer: 'habe', exp: 'في Perfekt نستخدم haben مع كثير من الأفعال، وهنا habe gelernt.' },
+                    { type: 'mcq', question: 'أي صيغة صحيحة لـ Perfekt مع machen؟', options: ['Ich habe gemacht.', 'Ich bin gemacht.', 'Ich habe machen.'], answer: 'Ich habe gemacht.', exp: 'machen يأخذ haben، وPartizip II هو gemacht.' },
+                    { type: 'reorder', question: 'رتب جملة Perfekt:', words: ['Wir', 'haben', 'Fußball', 'gespielt.'], answer: 'Wir haben Fußball gespielt.', exp: 'haben في المركز الثاني وPartizip II في نهاية الجملة.' },
+                    { type: 'fill', question: 'صرف dürfen مع er: Er _____ hier bleiben.', answer: 'darf', exp: 'تصريف dürfen مع er هو darf.' },
+                    { type: 'mcq', question: 'ما تصريف wollen مع wir؟', options: ['wollen', 'will', 'wollt'], answer: 'wollen', exp: 'مع wir يبقى الفعل wollen.' },
+                    { type: 'tf', question: 'Partizip II للفعل lernen هو gelernt.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'الصيغة الصحيحة في Perfekt هي gelernt.' }
+                ]
+            }
+        ];
+
+        // PART 2 DATA (Lessons 8-14)
+        const lessonsDataPart2 = [
+            // Lesson 8 (KB 102)
+            {
+                title: "الدرس 8 (KB 102): الفعل الناقص müssen والماضي البسيط لـ sein/haben",
+                questions: [
+                    { type: 'fill', question: 'صرف الفعل الناقص müssen مع الضمير ich: Ich _____ heute viel arbeiten.', answer: 'muss', exp: 'الفعل الناقص müssen يفقد الإمالة (Umlaut) مع ضمائر المفرد فتصبح مع ich: muss.' },
+                    { type: 'mcq', question: 'ما هو الماضي البسيط (Präteritum) من فعل الكينونة sein مع الضمير ich/er/sie؟', options: ['war', 'hatte', 'gewesen'], answer: 'war', exp: 'الماضي البسيط من فعل الكينونة sein هو war (كنت/كان).' },
+                    { type: 'tf', question: 'الفعل الناقص (müssen) يفقد التشكيل (Umlaut) مع جميع ضمائر المفرد (ich, du, er/sie/es).', options: ['صح', 'خطأ'], answer: 'صح', exp: 'قاعدة ثابتة: ich muss, du musst, er/sie/es muss.' },
+                    { type: 'reorder', question: 'رتب الجملة بالماضي مع الكينونة (war):', words: ['ich', 'Gestern', 'zu', 'Hause.', 'war'], answer: 'Gestern war ich zu Hause.', exp: 'عند البدء بالظرف Gestern يأتي الفعل war بالمركز الثاني ثم الفاعل ich.' },
+                    { type: 'fill', question: 'صرف الفعل الناقص müssen مع الضمير du (بدون Umlaut): Du _____ den Arzt anrufen.', answer: 'musst', exp: 'تصريف müssen مع الضمير du هو musst بدون Umlaut.' },
+                    { type: 'mcq', question: 'الماضي البسيط (Präteritum) من الفعل haben مع الضمير wir هو:', options: ['hatten', 'waren', 'gehabt'], answer: 'hatten', exp: 'الماضي من haben مع الضمير wir هو hatten (كان لدينا).' },
+                    { type: 'fill', question: 'اكتب صيغة الماضي Präteritum للفعل haben مع الضمير ich: Ich _____ keine Zeit.', answer: 'hatte', exp: 'الماضي البسيط من haben مع الضمير ich هو hatte (كان لدي).' },
+                    { type: 'reorder', question: 'رتب الجملة مع الفعل الناقص müssen والمصدر في النهاية (gehen):', words: ['heute', 'Er', 'muss', 'gehen.', 'zum', 'Arzt'], answer: 'Er muss heute zum Arzt gehen.', exp: 'Er فاعل، muss بالمركز الثاني، والمصدر gehen يقع في نهاية الجملة.' },
+                    { type: 'mcq', question: 'تصريف الفعل الناقص müssen مع الضمير ihr (أنتم) هو:', options: ['müsst', 'müssen', 'musst'], answer: 'müsst', exp: 'مع الضمير ihr تحتفظ الصيغة بـ Umlaut وتأخذ t فتصبح müsst.' },
+                    { type: 'tf', question: 'في جملة تحتوي على فعل ناقص (مثل müssen)، يوضع الفعل الناقص المصرف في المركز الثاني ويأتي الفعل الرئيسي بالمصدر في نهاية الجملة.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'قاعدة هيكل الجملة مع الأفعال الناقصة Modalverben.' },
+                    { type: 'fill', question: 'اكتب الماضي Präteritum للفعل sein مع الضمير du: Wo _____ du gestern?', answer: 'warst', exp: 'تصريف الماضي من sein مع du هو warst (كنتَ/كنتِ).' },
+                    { type: 'mcq', question: 'اختر التصريف الصحيح للفعل haben في الماضي Präteritum مع الضمير du:', options: ['hattest', 'warst', 'hast'], answer: 'hattest', exp: 'مع du يكون الماضي البسيط من haben هو hattest.' },
+                    { type: 'reorder', question: 'رتب الجملة في الماضي Präteritum مع (hatten):', words: ['einen', 'Wir', 'gestern', 'hatten', 'Termin.'], answer: 'Wir hatten gestern einen Termin.', exp: 'Wir فاعل، hatten بالمركز الثاني، والاسم المذكر المفعول به Termin بحرف كبير.' },
+                    { type: 'fill', question: 'صرف الفعل müssen مع الضمير wir: Wir _____ Deutsch lernen.', answer: 'müssen', exp: 'مع الضمير wir يأخذ الفعل الصيغة المصدرية الكاملة (müssen).' },
+                    { type: 'mcq', question: 'الماضي من فعل الكينونة sein مع الضمير sie (جمع) هو:', options: ['waren', 'hatten', 'sein'], answer: 'waren', exp: 'مع ضمير الجمع sie/Sie يكون الماضي البسيط من الكينونة هو waren.' },
+                    { type: 'fill', question: 'صرف müssen مع ich: Ich _____ morgen arbeiten.', answer: 'muss', exp: 'تصريف müssen مع ich هو muss.' },
+                    { type: 'mcq', question: 'ما الماضي البسيط من sein مع ich؟', options: ['war', 'hatte', 'waren'], answer: 'war', exp: 'Präteritum للفعل sein مع ich هو war.' },
+                    { type: 'reorder', question: 'رتب الجملة في الماضي:', words: ['Ich', 'gestern', 'war', 'krank.'], answer: 'Ich war gestern krank.', exp: 'war هو الماضي البسيط لـ sein مع ich.' },
+                    { type: 'tf', question: 'الماضي البسيط لـ haben مع ich هو hatte.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'Präteritum لـ haben مع ich هو hatte.' },
+                    { type: 'fill', question: 'أكمل: Wir _____ gestern zu Hause.', answer: 'waren', exp: 'مع wir يكون الماضي البسيط من sein: waren.' },
+                    { type: 'mcq', question: 'الماضي البسيط لـ haben مع er هو:', options: ['hatte', 'hat', 'hattet'], answer: 'hatte', exp: 'Präteritum لـ haben مع er هو hatte.' },
+                    { type: 'reorder', question: 'رتب:', words: ['Du', 'musst', 'heute', 'lernen.'], answer: 'Du musst heute lernen.', exp: 'müssen مع du هو musst والمصدر lernen في النهاية.' },
+                    { type: 'fill', question: 'صرف müssen مع ihr: Ihr _____ jetzt gehen.', answer: 'müsst', exp: 'مع ihr يكون التصريف müsst.' },
+                    { type: 'mcq', question: 'أي جملة صحيحة؟', options: ['Sie waren müde.', 'Sie war müde.', 'Sie hatte müde.'], answer: 'Sie waren müde.', exp: 'مع Sie الرسمية يكون الماضي من sein: waren.' },
+                    { type: 'tf', question: 'hatte هو الماضي البسيط للفعل haben مع ich وer وsie وes.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'في المفرد الأول والثالث يأتي haben في Präteritum بصيغة hatte.' }
+                ]
+            },
+            // Lesson 9 (KB 114)
+            {
+                title: "الدرس 9 (KB 114): صيغة الأمر Imperativ والفعل الناقص sollen",
+                questions: [
+                    { type: 'mcq', question: 'صيغة الأمر (Imperativ) من الفعل kommen مع الضمير du هي:', options: ['Komm!', 'Kommt!', 'Kommen Sie!'], answer: 'Komm!', exp: 'في صيغة الأمر مع du نحذف الضمير والنهاية st فيتبقى جذر الفعل Komm!.' },
+                    { type: 'fill', question: 'صرف الفعل الناقص sollen مع الضمير er/sie: Er _____ Medizin nehmen.', answer: 'soll', exp: 'تصريف sollen مع er/sie/es هو soll بدون إضافة نهايات.' },
+                    { type: 'tf', question: 'في صيغة الأمر مع المفرد (du)، نحذف الضمير du ونحذف النهاية st من الفعل.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'قاعدة تكوين الأمر للمفرد المخاطب du.' },
+                    { type: 'reorder', question: 'رتب جملة الأمر الرسمية بأسلوب الاحترام مع (Sie):', words: ['viel', 'Wasser!', 'Sie', 'Trinken'], answer: 'Trinken Sie viel Wasser!', exp: 'في أمر الاحترام يتقدم الفعل المصرف بالمصدر Trinken ثم الضمير Sie.' },
+                    { type: 'fill', question: 'اكتب صيغة الأمر للفعل machen مع الجمع (ihr): _____ die Hausaufgaben!', answer: 'Macht', exp: 'في الأمر مع الجمع ihr نحذف الضمير فقط ونبقي الفعل ينتهي بـ t فتصبح Macht!.' },
+                    { type: 'mcq', question: 'صيغة الأمر الشاذة من فعل الكينونة sein مع ضمير الاحترام Sie هي:', options: ['Seien Sie!', 'Sind Sie!', 'Sei!'], answer: 'Seien Sie!', exp: 'الأمر من sein مع Sie هو Seien Sie!.' },
+                    { type: 'fill', question: 'صرف الفعل الناقص sollen مع الضمير du: Du _____ zum Arzt gehen.', answer: 'sollst', exp: 'مع الضمير du يأخذ الفعل sollen النهاية st لتصبح sollst.' },
+                    { type: 'reorder', question: 'رتب جملة الأمر للمفرد du مع الفعل (gehen):', words: ['nach', 'Hause!', 'schnell', 'Geh', 'bitte'], answer: 'Geh bitte schnell nach Hause!', exp: 'تبدأ جملة الأمر بالفعل Geh بحرف كبير، ثم العبارات التوضيحية.' },
+                    { type: 'mcq', question: 'صيغة الأمر من الفعل lesen مع الضمير du (انتبه لتبدل e إلى ie):', options: ['Lies!', 'Lest!', 'Lesen Sie!'], answer: 'Lies!', exp: 'الأفعال الشاذة التي تغير e إلى ie تحتفظ بهذا التغير في الأمر للمفرد: Lies!.' },
+                    { type: 'tf', question: 'الفعل الناقص (sollen) مع الضمير ich يتصرف بـ (soll) مطابقاً لتصريفه مع er/sie/es.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'قاعدة عامة للأفعال الناقصة: تصريف ich يطابق تصريف er/sie/es.' },
+                    { type: 'fill', question: 'اكتب صيغة الأمر من الفعل schlafen مع الضمير du بحرف كبير: _____ gut!', answer: 'Schlaf', exp: 'الأمر من schlafen مع du هو Schlaf! بدون إمالة وبدون st.' },
+                    { type: 'mcq', question: 'صيغة الأمر من الفعل helfen مع مجموعة أصدقاء (ihr) هي:', options: ['Helft!', 'Hilf!', 'Helfen Sie!'], answer: 'Helft!', exp: 'الأمر مع الجمع ihr لا يحدث فيه تغير في الحرف الداخلي فتصبح Helft!.' },
+                    { type: 'reorder', question: 'رتب السؤال مع الفعل الناقص sollen:', words: ['soll', 'Was', 'jetzt', 'ich', 'machen?'], answer: 'Was soll ich jetzt machen?', exp: 'كلمة السؤال Was، ثم الفعل الناقص soll، الفاعل ich، والمصدر machen بالنهاية.' },
+                    { type: 'fill', question: 'صيغة الأمر الشاذة من فعل الكينونة sein مع المفرد du هي: _____ ruhig!', answer: 'Sei', exp: 'فعل الكينونة في الأمر مع du يتحول إلى Sei!.' },
+                    { type: 'mcq', question: 'تصريف الفعل الناقص sollen مع الضمير ihr (أنتم) هو:', options: ['sollt', 'sollen', 'sollst'], answer: 'sollt', exp: 'مع الضمير ihr ياخذ sollen النهاية t فتصبح sollt.' },
+                    { type: 'fill', question: 'حوّل إلى أمر مع du: _____ die Tür! (öffnen)', answer: 'Öffne', exp: 'صيغة الأمر مع du من öffnen هي Öffne.' },
+                    { type: 'mcq', question: 'ما صيغة الأمر الصحيحة: _____ bitte!', options: ['Komm', 'Kommen', 'Kommt'], answer: 'Komm', exp: 'مع du يمكن استخدام صيغة الأمر Komm.' },
+                    { type: 'reorder', question: 'رتب أمرًا بسيطًا:', words: ['bitte', 'Mach', 'die Tür', 'zu!'], answer: 'Mach bitte die Tür zu!', exp: 'الفعل المنفصل في الأمر يأتي مقطعه المنفصل في النهاية.' },
+                    { type: 'tf', question: 'sollen يُستخدم للتعبير عن أمر أو نصيحة أو تكليف من شخص آخر.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'sollen يدل على ما ينبغي أو ما يُطلب من الشخص فعله.' },
+                    { type: 'fill', question: 'صرف sollen مع du: Du _____ heute lernen.', answer: 'sollst', exp: 'مع du يصبح sollen: sollst.' },
+                    { type: 'mcq', question: 'أي جملة صحيحة؟', options: ['Du sollst zum Arzt gehen.', 'Du soll zum Arzt gehen.', 'Du sollen zum Arzt gehen.'], answer: 'Du sollst zum Arzt gehen.', exp: 'التصريف الصحيح لـ sollen مع du هو sollst، والمصدر في النهاية.' },
+                    { type: 'reorder', question: 'رتب النصيحة:', words: ['du', 'sollst', 'mehr', 'schlafen.'], answer: 'Du sollst mehr schlafen.', exp: 'الفعل المصرف sollst في المركز الثاني والمصدر schlafen في النهاية.' },
+                    { type: 'fill', question: 'صيغة الأمر مع ihr من kommen: _____!', answer: 'Kommt', exp: 'مع ihr تكون صيغة الأمر مثل التصريف: Kommt!' },
+                    { type: 'mcq', question: 'صيغة الأمر مع Sie الرسمية من warten هي:', options: ['Warten Sie!', 'Warte Sie!', 'Wartet Sie!'], answer: 'Warten Sie!', exp: 'أمر Sie الرسمية يتكون من المصدر + Sie.' },
+                    { type: 'tf', question: 'في أمر Sie الرسمية يأتي الضمير Sie بعد الفعل.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'نقول مثلًا: Kommen Sie! / Warten Sie!' }
+                ]
+            },
+            // Lesson 10 (KB 126)
+            {
+                title: "الدرس 10 (KB 126): حروف الجر مع حالة القابل Dativ",
+                questions: [
+                    { type: 'mcq', question: 'جميع حروف الجر التالية تأخذ دائماً حالة القابل (Dativ):', options: ['aus, bei, mit, nach, seit, von, zu', 'durch, für, gegen, ohne, um', 'in, an, auf, neben, unter'], answer: 'aus, bei, mit, nach, seit, von, zu', exp: 'حروف الجر هذه تنصب الاسم بعدها دائماً في حالة Dativ.' },
+                    { type: 'fill', question: 'تتغير أداة المذكر der والمحايد das في حالة Dativ دائماً إلى: _____', answer: 'dem', exp: 'في Dativ تتحول der و das إلى dem.' },
+                    { type: 'mcq', question: 'تتغير أداة المؤنث die في حالة Dativ دائماً إلى:', options: ['der', 'dem', 'den'], answer: 'der', exp: 'في حالة Dativ تتحول أداة المؤنث die إلى der.' },
+                    { type: 'reorder', question: 'رتب الجملة مع حرف الجر mit وحالة Dativ للمذكر (der Bus -> dem Bus):', words: ['Bus.', 'Ich', 'dem', 'mit', 'fahre'], answer: 'Ich fahre mit dem Bus.', exp: 'Ich فاعل، fahre فعل، mit حرف جر Dativ، والاسم dem Bus.' },
+                    { type: 'fill', question: 'تتغير أداة الجمع die في حالة Dativ إلى _____ وتضاف n لنهاية الاسم إن أمكن.', answer: 'den', exp: 'أداة الجمع في حالة Dativ هي den مع إضافة n للأسماء التي لا تنتهي بـ n أو s.' },
+                    { type: 'mcq', question: 'اختر حرف الجر المناسب للذهاب إلى الأشخاص والأماكن والمؤسسات (zu):', options: ['zu', 'aus', 'nach'], answer: 'zu', exp: 'نستخدم zu للذهاب للأشخاص والأماكن والمؤسسات داخل المدينة.' },
+                    { type: 'fill', question: 'اكتب الكلمة المدمجة الناتجة عن تركيب حرف الجر (zu + dem): _____', answer: 'zum', exp: 'الدمج الشائع لحرف الجر zu مع أداة المذكر/المحايد dem هو zum.' },
+                    { type: 'reorder', question: 'رتب الجملة مع حرف الجر nach للسفر إلى المدن والدول بدون أداة:', words: ['Berlin.', 'nach', 'fahren', 'Wir'], answer: 'Wir fahren nach Berlin.', exp: 'Wir فاعل، fahren بالمركز الثاني، nach Berlin اتجاه.' },
+                    { type: 'tf', question: 'الكلمة المدمجة (zur) هي اختصار لحرف الجر (zu) بالإضافة إلى أداة التعريف المؤنثة (der) في Dativ.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'صحيح: zu + der = zur.' },
+                    { type: 'mcq', question: 'اختر حرف الجر المناسب للتعبير عن السكن لدى شخص أو العمل لدى شركة:', options: ['bei', 'aus', 'nach'], answer: 'bei', exp: 'نستخدم bei للتعبير عن التواجد لدى شخص أو شركة (bei Siemens / bei meiner Tante).' },
+                    { type: 'fill', question: 'أداة التعريف المدمجة من حرف الجر von والأداة dem هي: _____', answer: 'vom', exp: 'الدمج بين von و dem يعطي vom.' },
+                    { type: 'mcq', question: 'حرف الجر (seit) يستخدم للتعبير عن حدث بدأ في الماضي وما زال مستمراً مع حالة:', options: ['Dativ', 'Akkusativ', 'Nominativ'], answer: 'Dativ', exp: 'حرف الجر seit يأخذ دائماً حالة Dativ.' },
+                    { type: 'reorder', question: 'رتب الجملة مع حرف الجر seit والنكرة المحايدة (einem Jahr):', words: ['hier.', 'Jahr', 'einem', 'seit', 'Ich', 'wohne'], answer: 'Ich wohne seit einem Jahr hier.', exp: 'Ich wohne seit einem Jahr hier.' },
+                    { type: 'fill', question: 'أداة النكرة للمذكر والمحايد في حالة Dativ هي: _____', answer: 'einem', exp: 'في Dativ تتحول ein للمذكر والمحايد إلى einem.' },
+                    { type: 'mcq', question: 'أداة النكرة للمؤنث في حالة Dativ هي:', options: ['einer', 'einem', 'einen'], answer: 'einer', exp: 'تتحول eine للمؤنث في حالة Dativ إلى einer.' },
+                    { type: 'fill', question: 'أكمل أداة Dativ: Ich helfe _____ Mann.', answer: 'dem', exp: 'Mann مذكر، وأداة المذكر في Dativ هي dem.' },
+                    { type: 'mcq', question: 'أداة المؤنث في Dativ هي:', options: ['der', 'die', 'den'], answer: 'der', exp: 'die تتحول إلى der في Dativ.' },
+                    { type: 'reorder', question: 'رتب الجملة:', words: ['Ich', 'mit', 'dem', 'Bus', 'fahre.'], answer: 'Ich fahre mit dem Bus.', exp: 'حرف الجر mit يأخذ Dativ، وBus مذكر فيصبح dem Bus.' },
+                    { type: 'tf', question: 'حرف الجر mit يأخذ Dativ.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'mit من حروف الجر التي تتطلب Dativ.' },
+                    { type: 'fill', question: 'أكمل: Wir sprechen mit _____ Frau.', answer: 'der', exp: 'Frau مؤنث، وفي Dativ تصبح die إلى der.' },
+                    { type: 'mcq', question: 'ما أداة الجمع في Dativ؟', options: ['den', 'die', 'der'], answer: 'den', exp: 'أداة الجمع في Dativ هي den، وغالبًا يضاف n للاسم إذا أمكن.' },
+                    { type: 'reorder', question: 'رتب:', words: ['Ich', 'helfe', 'dem', 'Kind.'], answer: 'Ich helfe dem Kind.', exp: 'Kind محايد، وأداة المحايد في Dativ هي dem.' },
+                    { type: 'fill', question: 'أكمل: Sie fährt mit _____ Kindern.', answer: 'den', exp: 'Kindern جمع في Dativ، لذلك نستخدم den.' },
+                    { type: 'mcq', question: 'أي حرف جر يأخذ Dativ؟', options: ['mit', 'für', 'durch'], answer: 'mit', exp: 'mit من حروف الجر التي تتطلب Dativ.' },
+                    { type: 'tf', question: 'المحايد das يتحول إلى dem في Dativ.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'أداة المحايد في Dativ هي dem.' }
+                ]
+            },
+            // Lesson 11 (KB 138)
+            {
+                title: "الدرس 11 (KB 138): أدوات الإشارة والاستفهام والضمائر الشخصية في Akkusativ",
+                questions: [
+                    { type: 'mcq', question: 'أداة الاستفهام للكلمة المذكرة في حالة المفعول به (Akkusativ) هي:', options: ['Welchen', 'Welcher', 'Welches'], answer: 'Welchen', exp: 'مع المذكر في حالة Akkusativ تتحول أداة الاستفهام إلى Welchen.' },
+                    { type: 'fill', question: 'أداة الإشارة للمذكر في حالة Akkusativ هي: Ich nehme _____ Mantel.', answer: 'diesen', exp: 'تتحول أداة الإشارة للمذكر من dieser إلى diesen في حالة المفعول به.' },
+                    { type: 'tf', question: 'أداة الإشارة (dieser / dieses / diese) تأخذ نفس نهايات أداة الاستفهام (welcher / welches / welche).', options: ['صح', 'خطأ'], answer: 'صح', exp: 'قاعدة النهايات المتطابقة بين أداة الاستفهام والإشارة.' },
+                    { type: 'reorder', question: 'رتب السؤال بأداة الاستفهام Welcher للمذكر في حالة الفاعل (Nominativ):', words: ['dir?', 'Rock', 'Welcher', 'gefällt'], answer: 'Welcher Rock gefällt dir?', exp: 'Welcher Rock بالبداية بحرف كبير، gefällt بالمركز الثاني، ثم dir.' },
+                    { type: 'fill', question: 'الضمير الشخصي المنصوب للمتكلم المفرد (ich) في حالة Akkusativ هو: _____', answer: 'mich', exp: 'تحول الضمير ich إلى mich في Akkusativ.' },
+                    { type: 'mcq', question: 'الضمير الشخصي المنصوب للمخاطب (du) في حالة Akkusativ هو:', options: ['dich', 'dir', 'du'], answer: 'dich', exp: 'تحول الضمير du إلى dich في Akkusativ.' },
+                    { type: 'fill', question: 'الضمير الشخصي المنصوب للمذكر الغائب (er) في حالة Akkusativ هو: _____', answer: 'ihn', exp: 'تحول الضمير er إلى ihn في Akkusativ.' },
+                    { type: 'reorder', question: 'رتب الجملة مع الضمير الشخصي mich في حالة Akkusativ:', words: ['mich?', 'du', 'Siehst'], answer: 'Siehst du mich?', exp: 'Siehst فعل بالمركز الأول للسؤال، du فاعل، mich مفعول به.' },
+                    { type: 'mcq', question: 'الضمير الشخصي للمتكلمين الجمع (wir) في حالة Akkusativ هو:', options: ['uns', 'euch', 'wir'], answer: 'uns', exp: 'تحول الضمير wir إلى uns في Akkusativ.' },
+                    { type: 'tf', question: 'الضمائر الشخصية للمحايد (es) والمؤنث (sie) والجمع (sie) لا تتغير صيغتها في حالة Akkusativ.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'تبقى es, sie, sie كما هي في Akkusativ.' },
+                    { type: 'fill', question: 'الضمير الشخصي للمخاطبين الجمع (ihr) في حالة Akkusativ هو: _____', answer: 'euch', exp: 'تحول الضمير ihr إلى euch في Akkusativ.' },
+                    { type: 'mcq', question: 'اختر اسم الإشارة المناسب للاسم المحايد (das Kleid):', options: ['dieses Kleid', 'diesen Kleid', 'dieser Kleid'], answer: 'dieses Kleid', exp: 'مع الاسم المحايد das Kleid تأخذ أداة الإشارة النهاية es فتصبح dieses Kleid.' },
+                    { type: 'reorder', question: 'رتب الجملة مع الضمير المنصوب (ihn):', words: ['nicht.', 'ihn', 'Ich', 'kenne'], answer: 'Ich kenne ihn nicht.', exp: 'Ich فاعل، kenne فعل، ihn مفعول به، nicht نفي.' },
+                    { type: 'fill', question: 'أداة الاستفهام للمؤنث (die Bluse) بحرف كبير هي: _____ Bluse findest du schön?', answer: 'Welche', exp: 'مع المؤنث die Bluse تكون أداة الاستفهام هي Welche.' },
+                    { type: 'mcq', question: 'الضمير الشخصي للاحترام (Sie) في حالة Akkusativ هو:', options: ['Sie', 'Ihnen', 'Ihr'], answer: 'Sie', exp: 'يبقى ضمير الاحترام Sie كما هو في حالة Akkusativ.' },
+                    { type: 'fill', question: 'عوض عن den Mann بضمير في Akkusativ: Ich sehe _____.', answer: 'ihn', exp: 'الضمير الشخصي المذكر في Akkusativ هو ihn.' },
+                    { type: 'mcq', question: 'الضمير المناسب لـ die Frau في Akkusativ هو:', options: ['sie', 'ihn', 'ihm'], answer: 'sie', exp: 'المؤنث sie تبقى sie في Akkusativ.' },
+                    { type: 'reorder', question: 'رتب السؤال:', words: ['Welchen', 'Film', 'siehst', 'du?'], answer: 'Welchen Film siehst du?', exp: 'Welchen يُستخدم مع المذكر في Akkusativ.' },
+                    { type: 'tf', question: 'ضمير das في Akkusativ هو es.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'المحايد es لا يتغير في Akkusativ.' },
+                    { type: 'fill', question: 'أكمل: Ich kaufe den Tisch. Ich kaufe _____.', answer: 'ihn', exp: 'Tisch مذكر، لذلك ضميره في Akkusativ هو ihn.' },
+                    { type: 'mcq', question: 'ما أداة الإشارة المناسبة للمذكر؟', options: ['dieser', 'diese', 'dieses'], answer: 'dieser', exp: 'في صيغة الرفع للمذكر نقول dieser.' },
+                    { type: 'reorder', question: 'رتب السؤال:', words: ['Welche', 'du?', 'Tasche', 'kaufst'], answer: 'Welche Tasche kaufst du?', exp: 'Tasche مؤنث، لذلك Welche مناسبة.' },
+                    { type: 'fill', question: 'أكمل: Ich nehme das Buch. Ich nehme _____.', answer: 'es', exp: 'Buch محايد، وضـميره في Akkusativ هو es.' },
+                    { type: 'mcq', question: 'أي سؤال صحيح عن مذكر في Akkusativ؟', options: ['Welchen Mann siehst du?', 'Welche Mann siehst du?', 'Welches Mann siehst du?'], answer: 'Welchen Mann siehst du?', exp: 'مع المذكر في Akkusativ نستخدم Welchen.' },
+                    { type: 'tf', question: 'الضمير الشخصي wir في Akkusativ يصبح uns.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'ضمير wir يتحول إلى uns في Akkusativ.' }
+                ]
+            },
+            // Lesson 12 (KB 150)
+            {
+                title: "الدرس 12 (KB 150): حروف الجر المتغيرة مع Dativ والضمائر في Dativ",
+                questions: [
+                    { type: 'mcq', question: 'السؤال عن المكان الثابت باستخدام (Wo?) مع حروف الجر المتغيرة يتطلب دائماً حالة:', options: ['Dativ', 'Akkusativ', 'Nominativ'], answer: 'Dativ', exp: 'قاعدة ثابتة: السؤال بـ Wo? (أين للمكان الثابت) يتطلب دائماً حالة Dativ.' },
+                    { type: 'fill', question: 'الضمير الشخصي للمخاطب (du) في حالة مجرور Dativ هو: _____', answer: 'dir', exp: 'يتغير الضمير du إلى dir في حالة Dativ.' },
+                    { type: 'tf', question: 'الكلمة المدمجة (im) هي اختصار لحرف الجر (in) زائد أداة Dativ للمذكر/المحايد (dem).', options: ['صح', 'خطأ'], answer: 'صح', exp: 'صحيح: in + dem = im.' },
+                    { type: 'reorder', question: 'رتب الجملة مع حرف الجر auf في Dativ (السؤال بـ Wo?):', words: ['Tisch.', 'liegt', 'auf', 'Das', 'Buch', 'dem'], answer: 'Das Buch liegt auf dem Tisch.', exp: 'Das Buch فاعل، liegt بالمركز الثاني، auf dem Tisch شبه جملة Dativ.' },
+                    { type: 'fill', question: 'الضمير الشخصي المتكلم (ich) في حالة مجرور Dativ هو: _____', answer: 'mir', exp: 'يتغير الضمير ich إلى mir في حالة Dativ.' },
+                    { type: 'mcq', question: 'الضمير الشخصي للمذكر الغائب (er) في حالة Dativ هو:', options: ['ihm', 'ihr', 'ihn'], answer: 'ihm', exp: 'يتغير الضمير er إلى ihm في حالة Dativ.' },
+                    { type: 'fill', question: 'الضمير الشخصي للمؤنث الغائب (sie) في حالة Dativ هو: _____', answer: 'ihr', exp: 'يتغير الضمير المفرد المؤنث sie إلى ihr في Dativ.' },
+                    { type: 'reorder', question: 'رتب الجملة مع حرف الجر in وحالة Dativ للمؤنث (die Küche -> der Küche):', words: ['der', 'ist', 'Küche.', 'in', 'Sie'], answer: 'Sie ist in der Küche.', exp: 'Sie ist in der Küche.' },
+                    { type: 'mcq', question: 'الدمج بين حرف الجر an وأداة المذكر/المحايد dem في حالة Dativ يعطي:', options: ['am', 'an dem', 'ans'], answer: 'am', exp: 'الدمج الشائع هو am (an + dem = am).' },
+                    { type: 'tf', question: 'حرف الجر (zwischen) يعني "بين" ويحتاج اسمين أو اسم جمع في حالة Dativ عند السؤال بـ Wo.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'حرف الجر بين zwischen يربط بين عنصرين دائماً.' },
+                    { type: 'fill', question: 'الضمير الشخصي للجمع المتكلم (wir) في حالة Dativ هو: _____', answer: 'uns', exp: 'يتغير الضمير wir إلى uns في حالة Dativ.' },
+                    { type: 'mcq', question: 'الضمير الشخصي للجمع المخاطب (ihr) في حالة Dativ هو:', options: ['euch', 'uns', 'ihnen'], answer: 'euch', exp: 'يتغير الضمير ihr إلى euch في حالة Dativ.' },
+                    { type: 'reorder', question: 'رتب الجملة مع حرف الجر unter في Dativ:', words: ['dem', 'Hund', 'unter', 'Der', 'schläft', 'Tisch.'], answer: 'Der Hund schläft unter dem Tisch.', exp: 'Der Hund فاعل، schläft فعل، unter dem Tisch مكان في Dativ.' },
+                    { type: 'fill', question: 'الضمير الشخصي للاحترام (Sie) في حالة Dativ يبدأ بحرف كبير وهو: _____', answer: 'Ihnen', exp: 'تحول صيغة الاحترام Sie في Dativ إلى Ihnen بحرف I كبير.' },
+                    { type: 'mcq', question: 'الضمير الشخصي للغائبين الجمع (sie) في حالة Dativ هو:', options: ['ihnen', 'Ihnen', 'euch'], answer: 'ihnen', exp: 'تتحول sie للجمع إلى ihnen بحرف صغير في Dativ.' },
+                    { type: 'fill', question: 'أكمل: Ich bin _____ Schule. (in + Dativ)', answer: 'in der', exp: 'Schule مؤنث، ومع Dativ تصبح die إلى der بعد in عند الدلالة على المكان.' },
+                    { type: 'mcq', question: 'أي حرف جر يمكن أن يأخذ Dativ أو Akkusativ حسب المعنى؟', options: ['in', 'mit', 'von'], answer: 'in', exp: 'in من حروف الجر المتغيرة، وتستخدم Dativ مع المكان الثابت.' },
+                    { type: 'reorder', question: 'رتب:', words: ['Das', 'Buch', 'liegt', 'auf', 'dem', 'Tisch.'], answer: 'Das Buch liegt auf dem Tisch.', exp: 'المكان ثابت، لذلك auf هنا مع Dativ: dem Tisch.' },
+                    { type: 'tf', question: 'عند التعبير عن مكان ثابت مع حروف الجر المتغيرة نستخدم Dativ.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'الموقع الثابت يأخذ Dativ مع حروف الجر المتغيرة.' },
+                    { type: 'fill', question: 'أكمل الضمير في Dativ: Ich helfe dir. Er hilft _____. (ich)', answer: 'mir', exp: 'ضمير ich في Dativ هو mir.' },
+                    { type: 'mcq', question: 'ضمير du في Dativ هو:', options: ['dir', 'dich', 'du'], answer: 'dir', exp: 'du يتحول إلى dir في Dativ.' },
+                    { type: 'reorder', question: 'رتب:', words: ['Ich', 'spreche', 'mit', 'ihm.'], answer: 'Ich spreche mit ihm.', exp: 'mit يأخذ Dativ، والضمير er يصبح ihm.' },
+                    { type: 'fill', question: 'أكمل: Wir fahren _____ Bahnhof. (zu + Dativ)', answer: 'zum', exp: 'zu dem تختصر إلى zum، وBahnhof مذكر.' },
+                    { type: 'mcq', question: 'ما الضمير الصحيح في Dativ لـ sie المفرد؟', options: ['ihr', 'sie', 'ihnen'], answer: 'ihr', exp: 'sie المفرد تصبح ihr في Dativ.' },
+                    { type: 'tf', question: 'الضمير ihnen هو Dativ للجمع sie.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'ضمير الجمع sie في Dativ هو ihnen.' }
+                ]
+            },
+            // Lesson 13 (KB 162)
+            {
+                title: "الدرس 13 (KB 162): أفعال حالة الداتيف وصيغ المقارنة والتفضيل",
+                questions: [
+                    { type: 'mcq', question: 'الأفعال التالية تأخذ مفعولاً به في حالة الداتيف (Dativ) دائماً:', options: ['gefallen, gehören, passen, danken, helfen', 'kaufen, essen, trinken, sehen', 'machen, suchen, haben, brauchen'], answer: 'gefallen, gehören, passen, danken, helfen', exp: 'هذه الأفعال تتطلب مفعولاً به مجرور في Dativ.' },
+                    { type: 'fill', question: 'صغ المقارنة (Komparativ) من الصفة gut: gut -> _____', answer: 'besser', exp: 'صفة شاذة في المقارنة: gut تتحول إلى besser.' },
+                    { type: 'tf', question: 'التفضيل الأعلى (Superlativ) من الصفة gut هو (am besten).', options: ['صح', 'خطأ'], answer: 'صح', exp: 'صحيح: gut -> besser -> am besten.' },
+                    { type: 'reorder', question: 'رتب الجملة مع الفعل gefallen والضمير mir في حالة Dativ:', words: ['gut.', 'gefällt', 'mir', 'Das', 'Buch'], answer: 'Das Buch gefällt mir gut.', exp: 'Das Buch فاعل، gefällt فعل، mir ضمير Dativ، gut ظرف.' },
+                    { type: 'fill', question: 'صيغة المقارنة (Komparativ) من الصفة viel هي: _____', answer: 'mehr', exp: 'صفة شاذة في المقارنة: viel تتحول إلى mehr.' },
+                    { type: 'mcq', question: 'صيغة التفضيل الأعلى (Superlativ) من الكلمة viel هي:', options: ['am meisten', 'am mehrsten', 'mehr'], answer: 'am meisten', exp: 'التفضيل الأعلى من viel هو am meisten.' },
+                    { type: 'fill', question: 'اكتب المقارنة (Komparativ) من الصفة gern: gern -> _____', answer: 'lieber', exp: 'صفة شاذة في المقارنة: gern تتحول إلى lieber.' },
+                    { type: 'reorder', question: 'رتب الجملة مع الفعل helfen والضمير dir:', words: ['gerne.', 'dir', 'helfe', 'Ich'], answer: 'Ich helfe dir gerne.', exp: 'Ich فاعل، helfe بالمركز الثاني، dir مفعول به Dativ، gerne.' },
+                    { type: 'mcq', question: 'صيغة التفضيل الأعلى (Superlativ) من الصفة gern هي:', options: ['am liebsten', 'am gerne', 'lieber'], answer: 'am liebsten', exp: 'التفضيل الأعلى من gern هو am liebsten.' },
+                    { type: 'tf', question: 'الصفات القصيرة التي تحتوي على الأحرف (a, o, u) تأخذ غالباً إمالة (Umlaut) في صيغة Komparativ مثل alt -> älter.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'قاعدة الإمالة في المقارنة للصفات القصيرة.' },
+                    { type: 'fill', question: 'أكمل المقارنة من الصفة groß مع الإمالة: groß -> _____', answer: 'größer', exp: 'تأخذ الصفة groß إمالة Umlaut ونهاية er فتصبح größer.' },
+                    { type: 'mcq', question: 'الفعل passen مع Dativ يعبر عن ملاءمة:', options: ['القياس والحجم', 'اللون والشكل', 'السعر'], answer: 'القياس والحجم', exp: 'الفعل passen يعبر عن المناسبة بالقياس/الحجم، بينما stehen للون والمظهر.' },
+                    { type: 'reorder', question: 'رتب الجملة مع الفعل gehören والضمير mir:', words: ['gehört', 'mir.', 'Auto', 'Das'], answer: 'Das Auto gehört mir.', exp: 'Das Auto فاعل، gehört فعل Dativ، mir مفعول به.' },
+                    { type: 'fill', question: 'صغ المقارنة (Komparativ) من الصفة klein: klein -> _____', answer: 'kleiner', exp: 'صفة قياسية نضيف لها er فتصبح kleiner.' },
+                    { type: 'mcq', question: 'أي الجمل التالية صحيحة مع الفعل danken الذي يتطلب Dativ؟', options: ['Ich danke Ihnen.', 'Ich danke Sie.', 'Ich danke du.'], answer: 'Ich danke Ihnen.', exp: 'الفعل danken يتطلب Dativ فتتحول Sie إلى Ihnen.' },
+                    { type: 'fill', question: 'أكمل: Ich helfe _____ Kind.', answer: 'dem', exp: 'Kind محايد، وبعد helfen نستخدم Dativ: dem Kind.' },
+                    { type: 'mcq', question: 'الفعل helfen يتطلب عادة:', options: ['Dativ', 'Akkusativ', 'Nominativ فقط'], answer: 'Dativ', exp: 'helfen من الأفعال التي تأخذ مفعولًا في Dativ.' },
+                    { type: 'reorder', question: 'رتب المقارنة:', words: ['Anna', 'ist', 'größer', 'als', 'Lisa.'], answer: 'Anna ist größer als Lisa.', exp: 'في المقارنة نستخدم صيغة المقارنة + als.' },
+                    { type: 'tf', question: 'صيغة المقارنة الأكبر من الصفة groß هي größer.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'groß تصبح größer في Komparativ.' },
+                    { type: 'fill', question: 'أكمل التفضيل: Das ist _____ beste Buch.', answer: 'das', exp: 'في صيغة Superlativ الاسمية نقول das beste Buch.' },
+                    { type: 'mcq', question: 'ما صيغة المقارنة من klein؟', options: ['kleiner', 'kleinste', 'kleinen'], answer: 'kleiner', exp: 'Komparativ من klein هو kleiner.' },
+                    { type: 'reorder', question: 'رتب الجملة:', words: ['Er', 'ist', 'schneller', 'als', 'ich.'], answer: 'Er ist schneller als ich.', exp: 'صيغة المقارنة schneller تتبعها als عند المقارنة بين شخصين.' },
+                    { type: 'fill', question: 'أكمل: Maria ist _____ als Anna. (jung)', answer: 'jünger', exp: 'jung تصبح jünger في Komparativ مع تغيير u إلى ü.' },
+                    { type: 'mcq', question: 'صيغة Superlativ من gut هي:', options: ['am besten', 'am guter', 'am gutsten'], answer: 'am besten', exp: 'gut من الصفات الشاذة، وصيغة التفضيل هي am besten.' },
+                    { type: 'tf', question: 'تُستخدم als مع صيغة المقارنة عند المقارنة بين شيئين.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'مثل: größer als، schneller als.' }
+                ]
+            },
+            // Lesson 14 (KB 174)
+            {
+                title: "الدرس 14 (KB 174): الجملة الجانبية بـ weil والماضي للأفعال الناقصة",
+                questions: [
+                    { type: 'mcq', question: 'في الجملة الفرعية المسبوقة بالرابط (weil)، يقع الفعل المصرف دائماً في:', options: ['نهاية الجملة', 'المركز الثاني', 'بداية الجملة'], answer: 'نهاية الجملة', exp: 'الرابط weil يبني جملة فرعية (Nebensatz) يرحل فيها الفعل المصرف لنهايتها.' },
+                    { type: 'fill', question: 'الماضي (Präteritum) من الفعل الناقص können مع الضمير ich/er/sie هو: _____', answer: 'konnte', exp: 'يفقد يمكن Umlaut بالماضي ليصبح konnte.' },
+                    { type: 'tf', question: 'الأفعال الناقصة Modalverben في زمن الماضي Präteritum تتخلى تماماً عن التشكيل (Umlaut).', options: ['صح', 'خطأ'], answer: 'صح', exp: 'قاعدة ثابتة: جميع الأفعال الناقصة تفقد Umlaut بالماضي Präteritum.' },
+                    { type: 'reorder', question: 'رتب الجملة الجانبية مع لأن (weil) باحترام مكان الفعل بالمرتبة الأخيرة:', words: ['krank', 'Ich', 'zu', 'Hause,', 'bin.', 'bleibe', 'weil', 'ich'], answer: 'Ich bleibe zu Hause, weil ich krank bin.', exp: 'الرابط weil يضع الفعل bin في نهاية الجملة تماماً.' },
+                    { type: 'fill', question: 'الماضي (Präteritum) من الفعل الناقص müssen مع الضمير ich/er/sie هو: _____', answer: 'musste', exp: 'يفقد يجب Umlaut بالماضي ليصبح musste.' },
+                    { type: 'mcq', question: 'الماضي من الفعل الناقص wollen مع الضمير ich هو:', options: ['wollte', 'wollten', 'wollst'], answer: 'wollte', exp: 'الماضي من wollen هو wollte.' },
+                    { type: 'fill', question: 'اكتب تصريف konnte مع الضمير du: Du _____ gestern nicht kommen.', answer: 'konntest', exp: 'مع الضمير du يأخذ الماضي من können النهاية est فتصبح konntest.' },
+                    { type: 'reorder', question: 'رتب الجملة في الماضي Präteritum مع (musste):', words: ['arbeiten.', 'gestern', 'musste', 'viel', 'Er'], answer: 'Er musste gestern viel arbeiten.', exp: 'Er فاعل، musste بالمركز الثاني، والمصدر arbeiten بالنهاية.' },
+                    { type: 'mcq', question: 'اختر رابط السبب الصحيح للجملة (Ich lerne Deutsch, _____ ich in Deutschland leben will.):', options: ['weil', 'und', 'aber'], answer: 'weil', exp: 'نستخدم weil للربط وإعطاء السبب مع نقل الفعل المصرف للنهاية.' },
+                    { type: 'tf', question: 'توضع فاصلة (Komma) قبل حرف الربط (weil) دائماً في اللغة الألمانية.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'قاعدة ترقيم: الفاصلة إجبارية قبل الجمل الفرعية المسبوقة بـ weil.' },
+                    { type: 'fill', question: 'تصريف musste مع الضمير du هو: Du _____ lange warten.', answer: 'musstest', exp: 'مع الضمير du يصبح تصريف musste هو musstest.' },
+                    { type: 'mcq', question: 'الماضي من الفعل الناقص sollen مع الضمير er هو:', options: ['sollte', 'sollten', 'sollt'], answer: 'sollte', exp: 'الماضي من sollen مع er هو sollte.' },
+                    { type: 'reorder', question: 'رتب جملة السبب مع weil باحترام مكان الفعل بالمرتبة الأخيرة (hat):', words: ['hat.', 'Zeit', 'keine', 'Er', 'weil', 'er', 'kommt', 'nicht,'], answer: 'Er comes nicht, weil er keine Zeit hat.', exp: 'Er kommt nicht, weil er keine Zeit hat.' },
+                    { type: 'fill', question: 'اكتب تصريف konnte مع الضمير wir: Wir _____ das nicht machen.', answer: 'konnten', exp: 'مع الضمير wir يأخذ الماضي من können النهاية en فتصبح konnten.' },
+                    { type: 'mcq', question: 'الماضي من الفعل الناقص dürfen مع الضمير ich هو:', options: ['durfte', 'dürfte', 'durften'], answer: 'durfte', exp: 'يفقد dürfen التشكيل Umlaut في الماضي ليصبح durfte.' },
+                    { type: 'fill', question: 'أكمل الجملة بـ weil: Ich bleibe zu Hause, weil ich krank _____.', answer: 'bin', exp: 'في الجملة الجانبية مع weil يأتي الفعل المصرف في النهاية.' },
+                    { type: 'mcq', question: 'أين يأتي الفعل المصرف في جملة weil؟', options: ['في النهاية', 'في المركز الأول', 'في المركز الثاني'], answer: 'في النهاية', exp: 'weil تدخل Nebensatz، والفعل المصرف يأتي في نهايتها.' },
+                    { type: 'reorder', question: 'رتب الجملة الجانبية:', words: ['weil', 'ich', 'müde', 'bin.'], answer: 'weil ich müde bin.', exp: 'بعد weil يأتي الفاعل ثم باقي عناصر الجملة والفعل المصرف في النهاية.' },
+                    { type: 'tf', question: 'في الجملة الجانبية بـ weil يأتي الفعل المصرف في النهاية.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'هذه قاعدة أساسية في Nebensatz مع weil.' },
+                    { type: 'fill', question: 'أكمل الماضي لـ können مع ich: Ich _____ nicht kommen.', answer: 'konnte', exp: 'الماضي البسيط لـ können مع ich هو konnte.' },
+                    { type: 'mcq', question: 'الماضي البسيط لـ müssen مع ich هو:', options: ['musste', 'muss', 'mussten'], answer: 'musste', exp: 'Präteritum لـ müssen مع ich هو musste.' },
+                    { type: 'reorder', question: 'رتب:', words: ['Ich', 'musste', 'gestern', 'arbeiten.'], answer: 'Ich musste gestern arbeiten.', exp: 'musste هو الماضي البسيط لـ müssen، والمصدر يأتي في النهاية.' },
+                    { type: 'fill', question: 'أكمل: Er _____ nicht kommen. (können في الماضي)', answer: 'konnte', exp: 'مع er يكون الماضي البسيط من können: konnte.' },
+                    { type: 'mcq', question: 'أي جملة صحيحة مع weil؟', options: ['Ich gehe, weil ich Zeit habe.', 'Ich gehe, weil habe ich Zeit.', 'Ich gehe, weil ich habe Zeit.'], answer: 'Ich gehe, weil ich Zeit habe.', exp: 'الفعل habe يأتي في نهاية الجملة الجانبية.' },
+                    { type: 'tf', question: 'الماضي البسيط لـ müssen مع wir هو mussten.', options: ['صح', 'خطأ'], answer: 'صح', exp: 'تصريف mussten هو الماضي البسيط لـ müssen مع wir.' }
+                ]
+            }
+        ];
+
+        let currentPart = 1;
+        let currentLessonIdx = 0;
+        let currentQuestionIdx = 0;
+        let selectedOption = null;
+        let score = 0;
+
+        function selectPart(partNum) {
+            currentPart = partNum;
+            
+            const btn1 = document.getElementById('part1-btn');
+            const btn2 = document.getElementById('part2-btn');
+            const nav1 = document.getElementById('part1-nav');
+            const nav2 = document.getElementById('part2-nav');
+
+            if (partNum === 1) {
+                btn1.classList.add('active-part');
+                btn2.classList.remove('active-part');
+                nav1.style.display = 'flex';
+                nav2.style.display = 'none';
+            } else {
+                btn2.classList.add('active-part');
+                btn1.classList.remove('active-part');
+                nav2.style.display = 'flex';
+                nav1.style.display = 'none';
+            }
+
+            loadLesson(0);
+        }
+
+        function getCurrentData() {
+            return currentPart === 1 ? lessonsDataPart1 : lessonsDataPart2;
+        }
+
+        function loadLesson(index) {
+            currentLessonIdx = index;
+            currentQuestionIdx = 0;
+            score = 0;
+
+            const activeNav = currentPart === 1 ? document.getElementById('part1-nav') : document.getElementById('part2-nav');
+            const tabs = activeNav.querySelectorAll('.lesson-tab');
+            tabs.forEach((tab, i) => {
+                if (i === index) tab.classList.add('active');
+                else tab.classList.remove('active');
+            });
+
+            const data = getCurrentData();
+            document.getElementById('lesson-title').innerText = data[index].title;
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const data = getCurrentData();
+            const lesson = data[currentLessonIdx];
+            const q = lesson.questions[currentQuestionIdx];
+
+            document.getElementById('progress-text').innerText = `سؤال ${currentQuestionIdx + 1} / ${lesson.questions.length}`;
+            document.getElementById('question-text').innerText = q.question;
+
+            const area = document.getElementById('interaction-area');
+            area.innerHTML = '';
+            
+            // Hide correction box on render
+            const correctionBox = document.getElementById('correction-box');
+            correctionBox.className = 'correction-box';
+            correctionBox.style.display = 'none';
+            correctionBox.innerHTML = '';
+
+            document.getElementById('check-btn').style.display = 'inline-block';
+            document.getElementById('next-btn').style.display = 'none';
+            selectedOption = null;
+
+            if (q.type === 'fill') {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.className = 'custom-input';
+                input.id = 'fill-answer';
+                input.placeholder = 'اكتب اجابتك هنا !';
+                input.autocomplete = 'off';
+                
+                input.addEventListener('keyup', function(event) {
+                    if (event.key === 'Enter') {
+                        checkAnswer();
+                    }
+                });
+
+                area.appendChild(input);
+            } else if (q.type === 'mcq' || q.type === 'tf') {
+                const grid = document.createElement('div');
+                grid.className = 'options-grid';
+                q.options.forEach(opt => {
+                    const btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.innerText = opt;
+                    btn.onclick = () => {
+                        document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+                        btn.classList.add('selected');
+                        selectedOption = opt;
+                    };
+                    grid.appendChild(btn);
+                });
+                area.appendChild(grid);
+            } else if (q.type === 'reorder') {
+                const targetArea = document.createElement('div');
+                targetArea.className = 'word-chips-container';
+                targetArea.id = 'target-words';
+
+                const sourceArea = document.createElement('div');
+                sourceArea.className = 'word-chips-container';
+                sourceArea.id = 'source-words';
+
+                let shuffled = [...q.words].sort(() => Math.random() - 0.5);
+
+                shuffled.forEach((word) => {
+                    const chip = document.createElement('div');
+                    chip.className = 'word-chip';
+                    chip.innerText = word;
+                    chip.onclick = () => {
+                        if (chip.parentElement.id === 'source-words') {
+                            targetArea.appendChild(chip);
+                        } else {
+                            sourceArea.appendChild(chip);
+                        }
+                    };
+                    sourceArea.appendChild(chip);
+                });
+
+                area.appendChild(targetArea);
+                area.appendChild(sourceArea);
+            }
+        }
+
+        function checkAnswer() {
+            const data = getCurrentData();
+            const lesson = data[currentLessonIdx];
+            const q = lesson.questions[currentQuestionIdx];
+            const correctionBox = document.getElementById('correction-box');
+            let isCorrect = false;
+            let userAns = '';
+
+            if (q.type === 'fill') {
+                const input = document.getElementById('fill-answer');
+                userAns = input ? input.value.trim() : '';
+                if (userAns === q.answer) {
+                    isCorrect = true;
+                }
+            } else if (q.type === 'mcq' || q.type === 'tf') {
+                userAns = selectedOption;
+                if (userAns === q.answer) {
+                    isCorrect = true;
+                }
+            } else if (q.type === 'reorder') {
+                const targetChips = document.querySelectorAll('#target-words .word-chip');
+                let wordsArr = [];
+                targetChips.forEach(c => wordsArr.push(c.innerText));
+                userAns = wordsArr.join(' ').trim();
+                if (userAns === q.answer.trim()) {
+                    isCorrect = true;
+                }
+            }
+
+            correctionBox.style.display = 'block';
+
+            if (isCorrect) {
+                playSound('correct');
+                showToast('إجابة صحيحة! أحسنت 👏', true);
+
+                correctionBox.className = 'correction-box correct';
+                correctionBox.innerHTML = `
+                    <div class="box-header">
+                        <i class="fas fa-check-circle"></i>
+                        <span>إجابتك صحيحة! أحسنت 👏</span>
+                    </div>
+                    <div class="correct-answer-line">
+                        ✓ الحل المطلوب: ${q.answer}
+                    </div>
+                    <div class="reason-explanation">
+                        💡 <strong>توضيح القاعدة النحوية الصحيحة:</strong><br>
+                        ${q.exp}
+                    </div>
+                `;
+                score++;
+            } else {
+                playSound('error');
+                showToast('إجابة خاطئة!', false);
+
+                let userDisplay = userAns ? `<span style="text-decoration: line-through; opacity: 0.85; font-weight: bold; color: var(--accent-red);">${userAns}</span>` : '<span style="color: var(--accent-gold);">(لم تقم بإدخال إجابة)</span>';
+
+                correctionBox.className = 'correction-box incorrect';
+                correctionBox.innerHTML = `
+                    <div class="box-header">
+                        <i class="fas fa-times-circle"></i>
+                        <span>تنبيه: الإجابة خاطئة!</span>
+                    </div>
+                    <div class="user-answer-line">
+                        ❌ <strong>إجابتك التي أدخلتها:</strong> ${userDisplay}
+                    </div>
+                    <div class="correct-answer-line">
+                        ✓ الجواب الصحيح: ${q.answer}
+                    </div>
+                    <div class="reason-explanation">
+                        💡 <strong>سبب الخطأ وشرح القاعدة النحوية بالتفصيل:</strong><br>
+                        ${q.exp}
+                        <br><small style="color: var(--text-sub); display: block; margin-top: 6px;">(تنبيه: راعِ كتابة الأسماء وبداية الجمل بالحرف الكبير Großschreibung ودقة التشكيل/التصريف).</small>
+                    </div>
+                `;
+            }
+
+            document.getElementById('check-btn').style.display = 'none';
+            document.getElementById('next-btn').style.display = 'inline-block';
+        }
+
+        function nextQuestion() {
+            const data = getCurrentData();
+            const lesson = data[currentLessonIdx];
+            currentQuestionIdx++;
+
+            if (currentQuestionIdx < lesson.questions.length) {
+                renderQuestion();
+            } else {
+                const finalGrade = Math.round((score / 25) * 100);
+                const isPassed = finalGrade >= 50;
+                
+                const quizBox = document.getElementById('quiz-box');
+                quizBox.innerHTML = `
+                    <div class="score-box">
+                        <i class="fas ${isPassed ? 'fa-award' : 'fa-times-circle'} fa-4x" style="color: ${isPassed ? 'var(--accent-gold)' : 'var(--accent-red)'}; margin-bottom: 15px;"></i>
+                        <h2>نتيجة ${lesson.title}</h2>
+                        
+                        <div class="score-number" style="color: ${isPassed ? 'var(--accent-green)' : 'var(--accent-red)'};">
+                            ${finalGrade} / 100
+                        </div>
+
+                        <div class="status-badge ${isPassed ? 'pass' : 'fail'}">
+                            ${isPassed ? 'النتيجة: ناجح 🎉' : 'النتيجة: راسب ❌'}
+                        </div>
+
+                        <p style="font-size: 1.15rem; color: var(--text-sub); margin-bottom: 25px;">
+                            أجبت على <strong>${score}</strong> من أصل <strong>25</strong> سؤالاً بشكل صحيح.
+                        </p>
+
+                        <button class="shiny-btn" onclick="location.reload()">
+                            <i class="fas fa-redo me-2"></i> العودة للاختبارات
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // Initialize default Part 1
+        window.onload = () => {
+            selectPart(1);
+        };
+    </script>
+</body>
+</html>
